@@ -24,7 +24,6 @@ public class PoliticianStatisticTest {
         speakerRepository = new MockSpeakersFactory().getSpeakerRepository();
         speechRepository = new MockPoliticalSpeechesFactory().getRepository();
         filter = new InMemoryPoliticalSpeechesFilter();
-        filter.setSpeeches(speechRepository.getAll());
         politicianStatistic = new PoliticianStatistic(speakerRepository, speechRepository, filter);
     }
 
