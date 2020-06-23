@@ -20,5 +20,12 @@ public class PoliticalSpeechesFilter {
         return speechesForOneYear;
     }
 
+    public ArrayList<PoliticalSpeech> getAllSpeechesFromSpeaker(String speakerName) {
+        ArrayList<PoliticalSpeech> speechesFromOneSpeaker = new ArrayList<>();
+        for (PoliticalSpeech speech : this.speeches) {
+            if (speech.getSpeakerName().equals(speakerName)) speechesFromOneSpeaker.add(speech);
+        }
+        return speechesFromOneSpeaker;
+    }
 
 }
