@@ -1,4 +1,4 @@
-package com.website.backend.speech.actions;
+package com.website.backend.speech.db.memory;
 
 import com.website.backend.mock.MockPoliticalSpeechesFactory;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
