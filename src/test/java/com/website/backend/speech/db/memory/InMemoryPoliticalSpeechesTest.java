@@ -1,5 +1,6 @@
 package com.website.backend.speech.db.memory;
 
+import com.website.backend.mock.MockPoliticalSpeechFactory;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.domain.PoliticalSpeech;
 import org.junit.Before;
@@ -17,8 +18,8 @@ public class InMemoryPoliticalSpeechesTest {
     @Before
     public void setUp() throws Exception {
         speeches = new InMemoryPoliticalSpeeches();
-        politicalSpeech1 = new PoliticalSpeech();
-        politicalSpeech2 = new PoliticalSpeech();
+        politicalSpeech1 = new MockPoliticalSpeechFactory().getSpeech();
+        politicalSpeech2 = new MockPoliticalSpeechFactory().getSpeech();
     }
 
     @Test
@@ -38,7 +39,7 @@ public class InMemoryPoliticalSpeechesTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shoudThrowErrorIfSpeechIsAlreadyInRepository() {
+    public void shouldThrowErrorIfSpeechIsAlreadyInRepository() {
         speeches.save(politicalSpeech1);
         speeches.save(politicalSpeech1);
     }

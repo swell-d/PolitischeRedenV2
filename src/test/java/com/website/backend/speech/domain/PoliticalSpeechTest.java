@@ -1,34 +1,18 @@
 package com.website.backend.speech.domain;
 
-import com.website.backend.speaker.domain.Speaker;
-import org.junit.Before;
+import com.website.backend.mock.MockPoliticalSpeechFactory;
 import org.junit.Test;
-
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import static org.junit.Assert.assertEquals;
 
 public class PoliticalSpeechTest {
 
-    private PoliticalSpeech testSpeach;
-    private Speaker testSpeaker;
-
-    @Before
-    public void setUp() throws Exception {
-        testSpeach = new PoliticalSpeech();
-        testSpeaker = new Speaker("John Smith");
-    }
-
     @Test
-    public void shouldSaveValues() {
-        testSpeach.speaker = testSpeaker;
-        testSpeach.topic = "Test topic";
-        testSpeach.date = new GregorianCalendar(2020, Calendar.JUNE, 23);
-        testSpeach.words = 123;
-        assertEquals("John Smith", testSpeach.getSpeakerName());
-        assertEquals("Test topic", testSpeach.topic);
-        assertEquals("2020-06-23", testSpeach.getDateAsText());
-        assertEquals(123, testSpeach.words);
+    public void shouldCreateObject() {
+        PoliticalSpeech speech = new MockPoliticalSpeechFactory().getSpeech();
+        assertEquals("John Smith", speech.getSpeakerName());
+        assertEquals("Test topic", speech.topic);
+        assertEquals("2020-06-23", speech.getDateAsText());
+        assertEquals(123, speech.words);
     }
 }

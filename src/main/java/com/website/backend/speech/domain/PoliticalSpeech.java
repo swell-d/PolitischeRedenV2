@@ -7,11 +7,19 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 public class PoliticalSpeech {
-    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    public Speaker speaker;
     public String topic;
     public Calendar date;
     public int words;
-    public Speaker speaker;
+
+    private static final DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    public PoliticalSpeech(Speaker speaker, String topic, Calendar date, int words) {
+        this.speaker = speaker;
+        this.topic = topic;
+        this.date = date;
+        this.words = words;
+    }
 
     public String getSpeakerName() {
         return this.speaker.name;
