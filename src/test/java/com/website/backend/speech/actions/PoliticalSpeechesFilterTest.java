@@ -9,13 +9,13 @@ import static org.junit.Assert.assertEquals;
 
 public class PoliticalSpeechesFilterTest {
 
-    PoliticalSpeechRepository speeches;
+    PoliticalSpeechRepository speechRepository;
     PoliticalSpeechesFilter filter;
 
     @Before
     public void setUp() throws Exception {
-        speeches = new MockPoliticalSpeechesFactory().getSpeeches();
-        filter = new PoliticalSpeechesFilter(speeches);
+        speechRepository = new MockPoliticalSpeechesFactory().getRepository();
+        filter = new PoliticalSpeechesFilter(speechRepository.getAll());
     }
 
     @Test

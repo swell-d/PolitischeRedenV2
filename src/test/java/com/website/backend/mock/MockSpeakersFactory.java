@@ -6,7 +6,7 @@ import com.website.backend.speaker.domain.Speaker;
 
 public class MockSpeakersFactory {
 
-    public SpeakerRepository getSpeakers() {
+    public SpeakerRepository getSpeakerRepository() {
         SpeakerRepository speakers = new InMemorySpeakers();
         speakers.save(new Speaker("Alexander Abel"));
         speakers.save(new Speaker("Bernhard Belling"));

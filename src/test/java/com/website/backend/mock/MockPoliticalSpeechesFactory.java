@@ -10,9 +10,9 @@ import java.text.ParseException;
 
 public class MockPoliticalSpeechesFactory {
 
-    private SpeakerRepository speakers = new MockSpeakersFactory().getSpeakers();
+    private SpeakerRepository speakers = new MockSpeakersFactory().getSpeakerRepository();
 
-    public PoliticalSpeechRepository getSpeeches() throws ParseException {
+    public PoliticalSpeechRepository getRepository() throws ParseException {
         PoliticalSpeechRepository speeches = new InMemoryPoliticalSpeeches();
         speeches.save(new PoliticalSpeech(
                 speakers.findByName("Alexander Abel"),
