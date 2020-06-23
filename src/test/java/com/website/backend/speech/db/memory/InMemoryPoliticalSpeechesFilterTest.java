@@ -2,11 +2,8 @@ package com.website.backend.speech.db.memory;
 
 import com.website.backend.mock.MockPoliticalSpeechesFactory;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
-import com.website.backend.speech.domain.PoliticalSpeech;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,13 +39,9 @@ public class InMemoryPoliticalSpeechesFilterTest {
 
     @Test
     public void shouldReturnWordsCountForOneSpeakerInOneYear() {
-        ArrayList<PoliticalSpeech> speechesInYear = filter.getAllSpeechesInYear(2012);
-        filter.setSpeeches(speechesInYear);
-        ArrayList<PoliticalSpeech> speechesFromOneSpeakerInOneYear =
-                filter.getAllSpeechesFromSpeaker("Alexander Abel");
-        filter.setSpeeches(speechesFromOneSpeakerInOneYear);
-        int wordsCount = filter.wordsCount();
-        assertEquals(6221, wordsCount);
+        filter.setSpeeches(filter.getAllSpeechesInYear(2012));
+        filter.setSpeeches(filter.getAllSpeechesFromSpeaker("Alexander Abel"));
+        assertEquals(6221, filter.wordsCount());
     }
 
     @Test
