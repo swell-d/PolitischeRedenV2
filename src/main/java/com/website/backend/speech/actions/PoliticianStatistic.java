@@ -7,6 +7,7 @@ import com.website.backend.speech.db.PoliticalSpeechesFilter;
 import com.website.backend.speech.domain.PoliticalSpeech;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class PoliticianStatistic {
 
@@ -21,7 +22,9 @@ public class PoliticianStatistic {
         filter.setSpeeches(speechRepository.getAll());
     }
 
-    public StatisticResponse getStatistic() {
+    public StatisticResponse getStatistic(Map<String, String> allParams) {
+        // Todo download csvs and parse them
+
         return new StatisticResponse(
                 findPoliticianMostSpeechesInYear(2013),
                 findPoliticianWithMostTopics("Innere Sicherheit"),

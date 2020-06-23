@@ -3,7 +3,7 @@ package com.website.backend.config;
 import com.website.backend.speaker.db.SpeakerRepository;
 import com.website.backend.speaker.db.memory.InMemorySpeakers;
 import com.website.backend.speech.actions.PoliticianStatistic;
-import com.website.backend.speech.api.rest.EvaluationController;
+import com.website.backend.speech.api.rest.StatisticController;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.db.PoliticalSpeechesFilter;
 import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
@@ -41,7 +41,7 @@ public class BackendConfig {
     }
 
     @Bean
-    public EvaluationController evaluationController(PoliticianStatistic politicianStatistic) {
-        return new EvaluationController(politicianStatistic);
+    public StatisticController statisticController(PoliticianStatistic politicianStatistic) {
+        return new StatisticController(politicianStatistic);
     }
 }
