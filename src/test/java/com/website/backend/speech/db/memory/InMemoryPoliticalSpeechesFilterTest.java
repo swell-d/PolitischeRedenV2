@@ -10,15 +10,16 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class PoliticalSpeechesFilterTest {
+public class InMemoryPoliticalSpeechesFilterTest {
 
     PoliticalSpeechRepository speechRepository;
-    PoliticalSpeechesFilter filter;
+    InMemoryPoliticalSpeechesFilter filter;
 
     @Before
     public void setUp() throws Exception {
         speechRepository = new MockPoliticalSpeechesFactory().getRepository();
-        filter = new PoliticalSpeechesFilter(speechRepository.getAll());
+        filter = new InMemoryPoliticalSpeechesFilter();
+        filter.setSpeeches(speechRepository.getAll());
     }
 
     @Test
@@ -42,9 +43,17 @@ public class PoliticalSpeechesFilterTest {
     @Test
     public void shouldReturnWordsCountForOneSpeakerInOneYear() {
         ArrayList<PoliticalSpeech> speechesInYear = filter.getAllSpeechesInYear(2012);
-        ArrayList<PoliticalSpeech> speechesFromOneSpeakerInOneYear = new PoliticalSpeechesFilter(speechesInYear)
-                .getAllSpeechesFromSpeaker("Alexander Abel");
-        int wordsCount = new PoliticalSpeechesFilter(speechesFromOneSpeakerInOneYear).wordsCount();
+        filter.setSpeeches(speechesInYear);
+        ArrayList<PoliticalSpeech> speechesFromOneSpeakerInOneYear =
+                filter.getAllSpeechesFromSpeaker("Alexander Abel");
+        filter.setSpeeches(speechesFromOneSpeakerInOneYear);
+        int wordsCount = filter.wordsCount();
         assertEquals(6221, wordsCount);
+    }
+
+    @Test
+    public void shouldReturnTopicsCountForCertainTopic() {
+        assertEquals(1, filter.getAllSpeechesWithTopic("Innere Sicherheit").size());
+        assertEquals(0, filter.getAllSpeechesWithTopic("Test topic").size());
     }
 }
