@@ -1,5 +1,6 @@
 package com.website.backend.speaker.db.memory;
 
+import com.website.backend.speaker.db.SpeakerRepository;
 import com.website.backend.speaker.domain.Speaker;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,7 +10,7 @@ import static org.junit.Assert.assertNull;
 
 public class InMemorySpeakersTest {
 
-    private InMemorySpeakers speakers;
+    private SpeakerRepository speakers;
     private Speaker testSpeaker;
 
     @Before

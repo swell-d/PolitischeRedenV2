@@ -1,0 +1,45 @@
+package com.website.backend.speech.db.memory;
+
+import com.website.backend.speech.db.PoliticalSpeechRepository;
+import com.website.backend.speech.domain.PoliticalSpeech;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+public class InMemoryPoliticalSpeechesTest {
+
+    private PoliticalSpeechRepository speeches;
+    private PoliticalSpeech politicalSpeech1;
+    private PoliticalSpeech politicalSpeech2;
+
+    @Before
+    public void setUp() throws Exception {
+        speeches = new InMemoryPoliticalSpeeches();
+        politicalSpeech1 = new PoliticalSpeech();
+        politicalSpeech2 = new PoliticalSpeech();
+    }
+
+    @Test
+    public void shouldSaveSpeeches() {
+        speeches.save(politicalSpeech1);
+        assertEquals(1, speeches.size());
+        speeches.save(politicalSpeech2);
+        assertEquals(2, speeches.size());
+    }
+
+    @Test
+    public void shouldReturnSavedSpeeches() {
+        speeches.save(politicalSpeech1);
+        speeches.save(politicalSpeech2);
+        assertTrue(speeches.getAll().contains(politicalSpeech1));
+        assertTrue(speeches.getAll().contains(politicalSpeech2));
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void shoudThrowErrorIfSpeechIsAlreadyInRepository() {
+        speeches.save(politicalSpeech1);
+        speeches.save(politicalSpeech1);
+    }
+}
