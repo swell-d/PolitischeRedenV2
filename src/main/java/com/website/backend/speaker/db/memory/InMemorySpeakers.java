@@ -29,6 +29,11 @@ public class InMemorySpeakers implements SpeakerRepository {
     }
 
     @Override
+    public ArrayList<Speaker> getAll() {
+        return speakers;
+    }
+
+    @Override
     public int size() {
         return speakers.size();
     }

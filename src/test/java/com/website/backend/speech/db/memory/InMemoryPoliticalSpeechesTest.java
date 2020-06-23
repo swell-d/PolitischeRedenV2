@@ -19,12 +19,12 @@ public class InMemoryPoliticalSpeechesTest {
     public void setUp() throws Exception {
         speeches = new InMemoryPoliticalSpeeches();
         politicalSpeech1 = new MockPoliticalSpeechFactory().getSpeech();
+        speeches.save(politicalSpeech1);
         politicalSpeech2 = new MockPoliticalSpeechFactory().getSpeech();
     }
 
     @Test
     public void shouldSaveSpeeches() {
-        speeches.save(politicalSpeech1);
         assertEquals(1, speeches.size());
         speeches.save(politicalSpeech2);
         assertEquals(2, speeches.size());
@@ -32,7 +32,6 @@ public class InMemoryPoliticalSpeechesTest {
 
     @Test
     public void shouldReturnSavedSpeeches() {
-        speeches.save(politicalSpeech1);
         speeches.save(politicalSpeech2);
         assertTrue(speeches.getAll().contains(politicalSpeech1));
         assertTrue(speeches.getAll().contains(politicalSpeech2));
@@ -40,7 +39,6 @@ public class InMemoryPoliticalSpeechesTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorIfSpeechIsAlreadyInRepository() {
-        speeches.save(politicalSpeech1);
         speeches.save(politicalSpeech1);
     }
 }
