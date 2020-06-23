@@ -28,4 +28,10 @@ public class PoliticalSpeechesFilter {
         return speechesFromOneSpeaker;
     }
 
+    public int wordsCount() {
+        int count = 0;
+        for (PoliticalSpeech speech : this.speeches) count += speech.words;
+        return count;
+    }
+
 }
