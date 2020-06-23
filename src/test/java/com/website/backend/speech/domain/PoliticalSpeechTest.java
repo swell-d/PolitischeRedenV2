@@ -1,5 +1,6 @@
 package com.website.backend.speech.domain;
 
+import com.website.backend.speaker.domain.Speaker;
 import org.junit.Before;
 import org.junit.Test;
 

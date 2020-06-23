@@ -1,4 +1,4 @@
-package com.website.backend.speech.domain;
+package com.website.backend.speaker.domain;
 
 public class Speaker {
     public final String name;

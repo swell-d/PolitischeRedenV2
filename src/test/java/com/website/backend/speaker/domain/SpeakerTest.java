@@ -1,4 +1,4 @@
-package com.website.backend.speech.domain;
+package com.website.backend.speaker.domain;
 
 import org.junit.Before;
 import org.junit.Test;

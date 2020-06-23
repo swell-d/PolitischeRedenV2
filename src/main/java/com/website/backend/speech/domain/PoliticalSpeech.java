@@ -1,5 +1,7 @@
 package com.website.backend.speech.domain;
 
+import com.website.backend.speaker.domain.Speaker;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -18,4 +20,5 @@ public class PoliticalSpeech {
     public String getDateAsText() {
         return dateFormat.format(this.date.getTime());
     }
+
 }
