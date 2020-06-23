@@ -11,19 +11,22 @@ import java.util.ArrayList;
 public class PoliticianStatistic {
 
     private final SpeakerRepository speakerRepository;
-    private final PoliticalSpeechRepository speechRepository;
     private final PoliticalSpeechesFilter filter;
 
     public PoliticianStatistic(SpeakerRepository speakerRepository,
                                PoliticalSpeechRepository speechRepository,
                                PoliticalSpeechesFilter filter) {
         this.speakerRepository = speakerRepository;
-        this.speechRepository = speechRepository;
         this.filter = filter;
+        filter.setSpeeches(speechRepository.getAll());
     }
 
-    public String findPoliticianMostSpeechesIn2013() {
-        return findPoliticianMostSpeechesInYear(2013);
+    public StatisticResponse getStatistic() {
+        return new StatisticResponse(
+                findPoliticianMostSpeechesInYear(2013),
+                findPoliticianWithMostTopics("Innere Sicherheit"),
+                findLeastWordyPolitician()
+        );
     }
 
     public String findPoliticianMostSpeechesInYear(int year) {
@@ -38,10 +41,6 @@ public class PoliticianStatistic {
             }
         }
         return result;
-    }
-
-    public String findMostSecurityPolitician() {
-        return findPoliticianWithMostTopics("Innere Sicherheit");
     }
 
     public String findPoliticianWithMostTopics(String topic) {

@@ -29,14 +29,24 @@ public class PoliticianStatisticTest {
     }
 
     @Test
+    public void shouldReturnStatisticResponse() {
+        StatisticResponse expected = new StatisticResponse(
+                null,
+                "Alexander Abel",
+                "Caesare Collins"
+        );
+        assertEquals(expected, politicianStatistic.getStatistic());
+    }
+
+    @Test
     public void shouldReturnPoliticianWithTheGreatestNumberOfSpeechesIn2013() {
         assertEquals("Alexander Abel", politicianStatistic.findPoliticianMostSpeechesInYear(2012));
-        assertNull(politicianStatistic.findPoliticianMostSpeechesIn2013());
+        assertNull(politicianStatistic.findPoliticianMostSpeechesInYear(2013));
     }
 
     @Test
     public void shouldReturnMostSecurityPolitician() {
-        assertEquals("Alexander Abel", politicianStatistic.findMostSecurityPolitician());
+        assertEquals("Alexander Abel", politicianStatistic.findPoliticianWithMostTopics("Innere Sicherheit"));
         assertNull(politicianStatistic.findPoliticianWithMostTopics("Test topic"));
     }
 
