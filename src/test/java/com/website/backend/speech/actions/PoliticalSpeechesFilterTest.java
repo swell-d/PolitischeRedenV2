@@ -2,8 +2,11 @@ package com.website.backend.speech.actions;
 
 import com.website.backend.mock.MockPoliticalSpeechesFactory;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
+import com.website.backend.speech.domain.PoliticalSpeech;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -34,5 +37,14 @@ public class PoliticalSpeechesFilterTest {
     @Test
     public void shouldReturnWordsCount() {
         assertEquals(8550, filter.wordsCount());
+    }
+
+    @Test
+    public void shouldReturnWordsCountForOneSpeakerInOneYear() {
+        ArrayList<PoliticalSpeech> speechesInYear = filter.getAllSpeechesInYear(2012);
+        ArrayList<PoliticalSpeech> speechesFromOneSpeakerInOneYear = new PoliticalSpeechesFilter(speechesInYear)
+                .getAllSpeechesFromSpeaker("Alexander Abel");
+        int wordsCount = new PoliticalSpeechesFilter(speechesFromOneSpeakerInOneYear).wordsCount();
+        assertEquals(6221, wordsCount);
     }
 }
