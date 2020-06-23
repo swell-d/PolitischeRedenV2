@@ -3,7 +3,9 @@ package com.website.backend.speech.actions;
 import com.website.backend.mock.MockPoliticalSpeechesFactory;
 import com.website.backend.mock.MockSpeakersFactory;
 import com.website.backend.speaker.db.SpeakerRepository;
+import com.website.backend.speaker.db.memory.InMemorySpeakers;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
+import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
 import com.website.backend.speech.db.memory.InMemoryPoliticalSpeechesFilter;
 import org.junit.Before;
 import org.junit.Test;
@@ -36,5 +38,17 @@ public class PoliticianStatisticTest {
     public void shouldReturnMostSecurityPolitician() {
         assertEquals("Alexander Abel", politicianStatistic.findMostSecurityPolitician());
         assertNull(politicianStatistic.findPoliticianWithMostTopics("Test topic"));
+    }
+
+    @Test
+    public void shouldReturnLeastWordyPolitician() {
+        assertEquals("Caesare Collins", politicianStatistic.findLeastWordyPolitician());
+
+        PoliticianStatistic emptyDB = new PoliticianStatistic(
+                new InMemorySpeakers(),
+                new InMemoryPoliticalSpeeches(),
+                new InMemoryPoliticalSpeechesFilter()
+        );
+        assertNull(emptyDB.findLeastWordyPolitician());
     }
 }

@@ -60,6 +60,22 @@ public class PoliticianStatistic {
         return result;
     }
 
+    public String findLeastWordyPolitician() {
+        String result = null;
+        int minWords = Integer.MAX_VALUE;
+        for (Speaker speaker : speakerRepository.getAll()) {
+            ArrayList<PoliticalSpeech> speechesBySpeaker = filter.getAllSpeechesBySpeaker(speaker.name);
+            PoliticalSpeechesFilter speechesBySpeakerFilter = filter.getInstance();
+            speechesBySpeakerFilter.setSpeeches(speechesBySpeaker);
+            int totalWords = speechesBySpeakerFilter.wordsCount();
+            if (totalWords < minWords) {
+                result = speaker.name;
+                minWords = totalWords;
+            }
+        }
+        return result;
+    }
+
     private PoliticalSpeechesFilter createSpeechesInYearFilter(int year) {
         PoliticalSpeechesFilter speechesInYearFilter = filter.getInstance();
         speechesInYearFilter.setSpeeches(filter.getAllSpeechesInYear(year));
