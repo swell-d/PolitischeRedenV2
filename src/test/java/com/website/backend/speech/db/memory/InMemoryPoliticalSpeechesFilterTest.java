@@ -27,9 +27,9 @@ public class InMemoryPoliticalSpeechesFilterTest {
 
     @Test
     public void shouldReturnSpeechesFromOneSpeaker() {
-        assertEquals(2, filter.getAllSpeechesFromSpeaker("Alexander Abel").size());
-        assertEquals(1, filter.getAllSpeechesFromSpeaker("Bernhard Belling").size());
-        assertEquals(0, filter.getAllSpeechesFromSpeaker("John Smith").size());
+        assertEquals(2, filter.getAllSpeechesBySpeaker("Alexander Abel").size());
+        assertEquals(1, filter.getAllSpeechesBySpeaker("Bernhard Belling").size());
+        assertEquals(0, filter.getAllSpeechesBySpeaker("John Smith").size());
     }
 
     @Test
@@ -40,7 +40,7 @@ public class InMemoryPoliticalSpeechesFilterTest {
     @Test
     public void shouldReturnWordsCountForOneSpeakerInOneYear() {
         filter.setSpeeches(filter.getAllSpeechesInYear(2012));
-        filter.setSpeeches(filter.getAllSpeechesFromSpeaker("Alexander Abel"));
+        filter.setSpeeches(filter.getAllSpeechesBySpeaker("Alexander Abel"));
         assertEquals(6221, filter.wordsCount());
     }
 

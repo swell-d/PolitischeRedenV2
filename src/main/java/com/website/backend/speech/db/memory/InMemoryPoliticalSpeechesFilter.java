@@ -29,7 +29,7 @@ public class InMemoryPoliticalSpeechesFilter implements PoliticalSpeechesFilter 
     }
 
     @Override
-    public ArrayList<PoliticalSpeech> getAllSpeechesFromSpeaker(String speakerName) {
+    public ArrayList<PoliticalSpeech> getAllSpeechesBySpeaker(String speakerName) {
         ArrayList<PoliticalSpeech> speechesFromOneSpeaker = new ArrayList<>();
         for (PoliticalSpeech speech : this.speeches) {
             if (speech.getSpeakerName().equals(speakerName)) speechesFromOneSpeaker.add(speech);

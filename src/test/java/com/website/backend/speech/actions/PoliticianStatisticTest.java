@@ -31,4 +31,10 @@ public class PoliticianStatisticTest {
         assertEquals("Alexander Abel", politicianStatistic.findPoliticianMostSpeechesInYear(2012));
         assertNull(politicianStatistic.findPoliticianMostSpeechesIn2013());
     }
+
+    @Test
+    public void shouldReturnMostSecurityPolitician() {
+        assertEquals("Alexander Abel", politicianStatistic.findMostSecurityPolitician());
+        assertNull(politicianStatistic.findPoliticianWithMostTopics("Test topic"));
+    }
 }

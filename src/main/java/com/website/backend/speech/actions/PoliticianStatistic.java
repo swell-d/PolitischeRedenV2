@@ -29,8 +29,9 @@ public class PoliticianStatistic {
     public String findPoliticianMostSpeechesInYear(int year) {
         String result = null;
         int maxSpeechesCount = 0;
+        PoliticalSpeechesFilter speechesInYearFilter = createSpeechesInYearFilter(year);
         for (Speaker speaker : speakerRepository.getAll()) {
-            int speechesCount = getSpeechesInYearFilter(year).getAllSpeechesFromSpeaker(speaker.name).size();
+            int speechesCount = speechesInYearFilter.getAllSpeechesBySpeaker(speaker.name).size();
             if (speechesCount > maxSpeechesCount) {
                 result = speaker.name;
                 maxSpeechesCount = speechesCount;
@@ -39,11 +40,30 @@ public class PoliticianStatistic {
         return result;
     }
 
-    private PoliticalSpeechesFilter getSpeechesInYearFilter(int year) {
-        ArrayList<PoliticalSpeech> speechesInYear = filter.getAllSpeechesInYear(year);
-        PoliticalSpeechesFilter newFilter = filter.getInstance();
-        newFilter.setSpeeches(speechesInYear);
-        return newFilter;
+    public String findMostSecurityPolitician() {
+        return findPoliticianWithMostTopics("Innere Sicherheit");
+    }
+
+    public String findPoliticianWithMostTopics(String topic) {
+        String result = null;
+        int maxSpeechesCount = 0;
+        for (Speaker speaker : speakerRepository.getAll()) {
+            ArrayList<PoliticalSpeech> speechesBySpeaker = filter.getAllSpeechesBySpeaker(speaker.name);
+            PoliticalSpeechesFilter speechesBySpeakerFilter = filter.getInstance();
+            speechesBySpeakerFilter.setSpeeches(speechesBySpeaker);
+            int speechesCount = speechesBySpeakerFilter.getAllSpeechesWithTopic(topic).size();
+            if (speechesCount > maxSpeechesCount) {
+                result = speaker.name;
+                maxSpeechesCount = speechesCount;
+            }
+        }
+        return result;
+    }
+
+    private PoliticalSpeechesFilter createSpeechesInYearFilter(int year) {
+        PoliticalSpeechesFilter speechesInYearFilter = filter.getInstance();
+        speechesInYearFilter.setSpeeches(filter.getAllSpeechesInYear(year));
+        return speechesInYearFilter;
     }
 
 }

@@ -12,7 +12,7 @@ public interface PoliticalSpeechesFilter {
 
     ArrayList<PoliticalSpeech> getAllSpeechesInYear(int year);
 
-    ArrayList<PoliticalSpeech> getAllSpeechesFromSpeaker(String speakerName);
+    ArrayList<PoliticalSpeech> getAllSpeechesBySpeaker(String speakerName);
 
     int wordsCount();
 
