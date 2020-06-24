@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Map;
 
 public class WorkWithCSV {
 
@@ -25,24 +24,10 @@ public class WorkWithCSV {
         this.speechRepository = speechRepository;
     }
 
-    public void parseSpeechesFromCSVs(Map<String, String> parameters) {
-        for (URL url : parseParameters(parameters)) {
+    public void parseSpeechesFromCSVs(ArrayList<URL> urls) {
+        for (URL url : urls) {
             addSpeechesToRepository(url);
         }
-    }
-
-    public ArrayList<URL> parseParameters(Map<String, String> parameters) {
-        if (parameters == null) return new ArrayList<URL>();
-        ArrayList<URL> urls = new ArrayList<>();
-        for (String url : parameters.values()) {
-            try {
-                String urlAsText = java.net.URLDecoder.decode(url, StandardCharsets.UTF_8);
-                urls.add(new URL(urlAsText));
-            } catch (Exception e) {
-                logger.error("Can't decode link: " + url);
-            }
-        }
-        return urls;
     }
 
     private void addSpeechesToRepository(URL url) {

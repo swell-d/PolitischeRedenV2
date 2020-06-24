@@ -3,6 +3,8 @@ package com.website.backend.speech.actions;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.domain.PoliticalSpeech;
 
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,15 +17,15 @@ public class PoliticianStatistic {
         this.speechRepository = speechRepository;
     }
 
-    public StatisticResponse getStatistic(Map<String, String> parameters) {
-        parseSpeechesFromCSVs(parameters);
+    public StatisticResponse getStatistic(ArrayList<URL> urls) {
+        parseSpeechesFromCSVs(urls);
         StatisticResponse result = calculateResult();
         this.speechRepository.clear();
         return result;
     }
 
-    private void parseSpeechesFromCSVs(Map<String, String> parameters) {
-        new WorkWithCSV(this.speechRepository).parseSpeechesFromCSVs(parameters);
+    private void parseSpeechesFromCSVs(ArrayList<URL> urls) {
+        new WorkWithCSV(this.speechRepository).parseSpeechesFromCSVs(urls);
     }
 
     private StatisticResponse calculateResult() {
@@ -34,7 +36,7 @@ public class PoliticianStatistic {
         );
     }
 
-    public String findPoliticianMostSpeechesInYear(int year) {
+    private String findPoliticianMostSpeechesInYear(int year) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
         for (PoliticalSpeech speech : this.speechRepository.getSpeechesInYear(year)) {
             increaseValue(countOfSpeeches, speech.speaker, 1);
@@ -54,7 +56,7 @@ public class PoliticianStatistic {
         return findUniqueValue(countOfSpeeches, maxValueInMap);
     }
 
-    public String findPoliticianWithMostTopics(String topic) {
+    private String findPoliticianWithMostTopics(String topic) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
         for (PoliticalSpeech speech : this.speechRepository.getSpeechesWithTopic(topic)) {
             increaseValue(countOfSpeeches, speech.speaker, 1);
@@ -62,7 +64,7 @@ public class PoliticianStatistic {
         return findMostSpeechesInMap(countOfSpeeches);
     }
 
-    public String findLeastWordyPolitician() {
+    private String findLeastWordyPolitician() {
         Map<String, Integer> countOfWords = new HashMap<>();
         for (PoliticalSpeech speech : this.speechRepository.getAllSpeeches()) {
             increaseValue(countOfWords, speech.speaker, speech.words);
