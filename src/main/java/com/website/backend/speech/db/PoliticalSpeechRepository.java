@@ -11,5 +11,7 @@ public interface PoliticalSpeechRepository {
 
     ArrayList<String> getAllSpeakers();
 
+    void clear();
+
     int size();
 }

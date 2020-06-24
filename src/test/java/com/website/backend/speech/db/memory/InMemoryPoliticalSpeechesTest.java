@@ -47,4 +47,10 @@ public class InMemoryPoliticalSpeechesTest {
         speeches.save(politicalSpeech2);
         assertEquals(2, speeches.getAllSpeakers().size());
     }
+
+    @Test
+    public void shouldClearRepository() {
+        speeches.clear();
+        assertEquals(0, speeches.size());
+    }
 }

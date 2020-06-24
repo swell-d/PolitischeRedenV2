@@ -15,4 +15,11 @@ public class PoliticalSpeechTest {
         assertEquals("2020-06-23", speech.getDateAsText());
         assertEquals(123, speech.words);
     }
+
+    @Test
+    public void shouldBeEquals() {
+        PoliticalSpeech speech1 = new MockPoliticalSpeechFactory().getSpeech1();
+        PoliticalSpeech speech2 = new MockPoliticalSpeechFactory().getSpeech1();
+        assertEquals(speech1, speech2);
+    }
 }

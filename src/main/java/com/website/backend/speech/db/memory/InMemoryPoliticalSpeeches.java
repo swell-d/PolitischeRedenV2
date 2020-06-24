@@ -30,6 +30,11 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     @Override
+    public void clear() {
+        speeches.clear();
+    }
+
+    @Override
     public int size() {
         return speeches.size();
     }
