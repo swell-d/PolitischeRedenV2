@@ -2,12 +2,15 @@ package com.website.backend.speech.db;
 
 import com.website.backend.speech.domain.PoliticalSpeech;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public interface PoliticalSpeechRepository {
     PoliticalSpeechRepository createRepository();
 
     void save(PoliticalSpeech speech);
+
+    void saveDataRowToRepository(String[] row) throws ParseException;
 
     ArrayList<PoliticalSpeech> getAllSpeeches();
 
