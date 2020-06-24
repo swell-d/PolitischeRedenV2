@@ -11,8 +11,7 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
 
     @Override
     public void save(PoliticalSpeech speech) {
-        if (this.speeches.contains(speech))
-            throw new IllegalArgumentException("Speech is already in repository.");
+        if (this.speeches.contains(speech)) throw new IllegalArgumentException("Speech is already in repository.");
         this.speeches.add(speech);
     }
 

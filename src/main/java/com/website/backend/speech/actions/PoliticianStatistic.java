@@ -1,7 +1,10 @@
 package com.website.backend.speech.actions;
 
 import com.website.backend.speech.db.PoliticalSpeechRepository;
+import com.website.backend.speech.domain.PoliticalSpeech;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 public class PoliticianStatistic {
@@ -23,15 +26,22 @@ public class PoliticianStatistic {
     }
 
     public String findPoliticianMostSpeechesInYear(int year) {
+        Map<String, Integer> countOfSpeeches = new HashMap<>();
+        for (PoliticalSpeech speech : speechRepository.getSpeechesInYear(year).getAllSpeeches()) {
+            Integer exist = countOfSpeeches.get(speech.speaker);
+            if (exist == null) exist = 0;
+            countOfSpeeches.put(speech.speaker, exist + 1);
+        }
+        return findMostSpeeches(countOfSpeeches);
+    }
+
+    private String findMostSpeeches(Map<String, Integer> countOfSpeeches) {
         String result = null;
-        int maxSpeechesCount = 0;
-        PoliticalSpeechRepository speechesInYear = speechRepository.getSpeechesInYear(year);
-        for (String speaker : speechRepository.getAllSpeakers()) {
-            int speechesCount = speechesInYear.getSpeechesBySpeaker(speaker).size();
-            if (speechesCount > maxSpeechesCount) {
-                result = speaker;
-                maxSpeechesCount = speechesCount;
-            }
+        if (countOfSpeeches.values().size() == 0) return null;
+        int maxValueInMap = Collections.max(countOfSpeeches.values());
+        for (Map.Entry<String, Integer> entry : countOfSpeeches.entrySet()) {
+            if (result != null & entry.getValue() == maxValueInMap) return null;
+            if (result == null & entry.getValue() == maxValueInMap) result = entry.getKey();
         }
         return result;
     }
