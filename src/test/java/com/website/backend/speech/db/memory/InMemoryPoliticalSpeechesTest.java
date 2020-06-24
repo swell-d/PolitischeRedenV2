@@ -1,7 +1,6 @@
 package com.website.backend.speech.db.memory;
 
 import com.website.backend.mock.MockPoliticalSpeechFactory;
-import com.website.backend.mock.MockPoliticalSpeechesFactory;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.domain.PoliticalSpeech;
 import org.junit.Before;
@@ -15,15 +14,13 @@ import static org.junit.Assert.assertTrue;
 public class InMemoryPoliticalSpeechesTest {
 
     private PoliticalSpeechRepository speeches;
-    private PoliticalSpeech politicalSpeech1;
-    private PoliticalSpeech politicalSpeech2;
+    private final PoliticalSpeech politicalSpeech1 = new MockPoliticalSpeechFactory().getSpeech1();
+    private final PoliticalSpeech politicalSpeech2 = new MockPoliticalSpeechFactory().getSpeech2();
 
     @Before
     public void setUp() throws Exception {
         speeches = new InMemoryPoliticalSpeeches();
-        politicalSpeech1 = new MockPoliticalSpeechFactory().getSpeech();
         speeches.save(politicalSpeech1);
-        politicalSpeech2 = new MockPoliticalSpeechFactory().getSpeech();
     }
 
     @Test
@@ -47,7 +44,7 @@ public class InMemoryPoliticalSpeechesTest {
 
     @Test
     public void shouldReturnSpeakersList() throws ParseException {
-        PoliticalSpeechRepository politicalSpeechRepository = new MockPoliticalSpeechesFactory().getRepository();
-        assertEquals(3, politicalSpeechRepository.getAllSpeakers().size());
+        speeches.save(politicalSpeech2);
+        assertEquals(2, speeches.getAllSpeakers().size());
     }
 }

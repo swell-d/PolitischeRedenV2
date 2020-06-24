@@ -9,7 +9,7 @@ public class PoliticalSpeechTest {
 
     @Test
     public void shouldCreateObject() {
-        PoliticalSpeech speech = new MockPoliticalSpeechFactory().getSpeech();
+        PoliticalSpeech speech = new MockPoliticalSpeechFactory().getSpeech1();
         assertEquals("John Smith", speech.speaker);
         assertEquals("Test topic", speech.topic);
         assertEquals("2020-06-23", speech.getDateAsText());
