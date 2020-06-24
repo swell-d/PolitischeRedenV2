@@ -34,24 +34,35 @@ public class WorkWithCSV {
         try (BufferedInputStream stream = new BufferedInputStream(url.openStream())) {
             CSVReader csvReader = new CSVReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
             String[] row;
+            if (!titleRowIsCorrect(csvReader.readNext())) return;
             while ((row = csvReader.readNext()) != null) parseRow(row);
         } catch (Exception e) {
             logger.error("Error with file: " + url);
         }
     }
 
+    private boolean titleRowIsCorrect(String[] row) {
+        try {
+            String speaker = row[0].trim();
+            String topic = row[1].trim();
+            String date = row[2].trim();
+            String words = row[3].trim();
+            if (row.length == 4 & speaker.equals("Redner") & topic.equals("Thema") & date.equals("Datum") & words.equals("Wörter"))
+                return true;
+            throw new IllegalArgumentException("Wrong title row");
+        } catch (Exception e) {
+            logger.error("Wrong title row");
+        }
+        return false;
+    }
+
     private void parseRow(String[] row) {
         try {
-            if (rowIsTitle(row)) return;
             if (row.length != 4) throw new IllegalArgumentException("Wrong data in row");
             saveDataToRepository(row);
         } catch (Exception e) {
-            logger.error("Wrong data in row: " + row[0] + "," + row[1] + "," + row[2] + "," + row[3]);
+            logger.error("Wrong data in row");
         }
-    }
-
-    private boolean rowIsTitle(String[] row) {
-        return row[0].equals("Redner");
     }
 
     private void saveDataToRepository(String[] row) throws ParseException {
