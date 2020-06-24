@@ -24,4 +24,8 @@ public class StatisticResponse implements Serializable {
                 Objects.equals(leastWordy, that.leastWordy);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(mostSpeeches, mostSecurity, leastWordy);
+    }
 }
