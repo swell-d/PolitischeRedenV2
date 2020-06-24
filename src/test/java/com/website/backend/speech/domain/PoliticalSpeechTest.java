@@ -9,7 +9,7 @@ public class PoliticalSpeechTest {
 
     @Test
     public void shouldCreateObject() {
-        PoliticalSpeech speech = new MockPoliticalSpeechFactory().getSpeech1();
+        PoliticalSpeech speech = new MockPoliticalSpeechFactory().getSpeech();
         assertEquals("John Smith", speech.speaker);
         assertEquals("Test topic", speech.topic);
         assertEquals("2020-06-23", speech.getDateAsText());
@@ -18,8 +18,8 @@ public class PoliticalSpeechTest {
 
     @Test
     public void shouldBeEquals() {
-        PoliticalSpeech speech1 = new MockPoliticalSpeechFactory().getSpeech1();
-        PoliticalSpeech speech2 = new MockPoliticalSpeechFactory().getSpeech1();
+        PoliticalSpeech speech1 = new MockPoliticalSpeechFactory().getSpeech();
+        PoliticalSpeech speech2 = new MockPoliticalSpeechFactory().getSpeech();
         assertEquals(speech1, speech2);
     }
 }

@@ -3,9 +3,7 @@ package com.website.backend.config;
 import com.website.backend.speech.actions.PoliticianStatistic;
 import com.website.backend.speech.api.rest.StatisticController;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
-import com.website.backend.speech.db.PoliticalSpeechesFilter;
 import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
-import com.website.backend.speech.db.memory.InMemoryPoliticalSpeechesFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,16 +18,10 @@ public class BackendConfig {
     }
 
     @Bean
-    public PoliticalSpeechesFilter politicalSpeechesFilter() {
-        return new InMemoryPoliticalSpeechesFilter();
-    }
-
-    @Bean
     public PoliticianStatistic politicianStatistic(
-            PoliticalSpeechRepository politicalSpeechRepository,
-            PoliticalSpeechesFilter politicalSpeechesFilter
+            PoliticalSpeechRepository politicalSpeechRepository
     ) {
-        return new PoliticianStatistic(politicalSpeechRepository, politicalSpeechesFilter);
+        return new PoliticianStatistic(politicalSpeechRepository);
     }
 
     @Bean

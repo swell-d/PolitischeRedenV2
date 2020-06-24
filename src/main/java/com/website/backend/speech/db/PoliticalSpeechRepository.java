@@ -14,4 +14,12 @@ public interface PoliticalSpeechRepository {
     void clear();
 
     int size();
+
+    PoliticalSpeechRepository getSpeechesInYear(int year);
+
+    PoliticalSpeechRepository getSpeechesBySpeaker(String speakerName);
+
+    PoliticalSpeechRepository getSpeechesWithTopic(String topic);
+
+    int wordsCount();
 }

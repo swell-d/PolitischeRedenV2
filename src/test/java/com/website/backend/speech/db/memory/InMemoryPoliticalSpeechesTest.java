@@ -1,6 +1,7 @@
 package com.website.backend.speech.db.memory;
 
 import com.website.backend.mock.MockPoliticalSpeechFactory;
+import com.website.backend.mock.MockPoliticalSpeechesFactory;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.domain.PoliticalSpeech;
 import org.junit.Before;
@@ -14,43 +15,70 @@ import static org.junit.Assert.assertTrue;
 public class InMemoryPoliticalSpeechesTest {
 
     private PoliticalSpeechRepository speeches;
-    private final PoliticalSpeech politicalSpeech1 = new MockPoliticalSpeechFactory().getSpeech1();
-    private final PoliticalSpeech politicalSpeech2 = new MockPoliticalSpeechFactory().getSpeech2();
+    private final PoliticalSpeech politicalSpeech = new MockPoliticalSpeechFactory().getSpeech();
 
     @Before
     public void setUp() throws Exception {
-        speeches = new InMemoryPoliticalSpeeches();
-        speeches.save(politicalSpeech1);
+        speeches = new MockPoliticalSpeechesFactory().getRepository();
     }
 
     @Test
     public void shouldSaveSpeeches() {
-        assertEquals(1, speeches.size());
-        speeches.save(politicalSpeech2);
-        assertEquals(2, speeches.size());
+        assertEquals(4, speeches.size());
+        speeches.save(politicalSpeech);
+        assertEquals(5, speeches.size());
     }
 
     @Test
     public void shouldReturnSavedSpeeches() {
-        speeches.save(politicalSpeech2);
-        assertTrue(speeches.getAllSpeeches().contains(politicalSpeech1));
-        assertTrue(speeches.getAllSpeeches().contains(politicalSpeech2));
+        speeches.save(politicalSpeech);
+        assertTrue(speeches.getAllSpeeches().contains(politicalSpeech));
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowErrorIfSpeechIsAlreadyInRepository() {
-        speeches.save(politicalSpeech1);
+        speeches.save(politicalSpeech);
+        speeches.save(politicalSpeech);
     }
 
     @Test
     public void shouldReturnSpeakersList() throws ParseException {
-        speeches.save(politicalSpeech2);
-        assertEquals(2, speeches.getAllSpeakers().size());
+        assertEquals(3, speeches.getAllSpeakers().size());
     }
 
     @Test
     public void shouldClearRepository() {
         speeches.clear();
         assertEquals(0, speeches.size());
+    }
+
+    @Test
+    public void shouldReturnSpeechesForOneYear() throws ParseException {
+        assertEquals(4, speeches.getSpeechesInYear(2012).size());
+        assertEquals(0, speeches.getSpeechesInYear(2020).size());
+    }
+
+    @Test
+    public void shouldReturnSpeechesFromOneSpeaker() throws ParseException {
+        assertEquals(2, speeches.getSpeechesBySpeaker("Alexander Abel").size());
+        assertEquals(1, speeches.getSpeechesBySpeaker("Bernhard Belling").size());
+        assertEquals(0, speeches.getSpeechesBySpeaker("John Smith").size());
+    }
+
+    @Test
+    public void shouldReturnWordsCount() throws ParseException {
+        assertEquals(8550, speeches.wordsCount());
+    }
+
+    @Test
+    public void shouldReturnWordsCountForOneSpeakerInOneYear() throws ParseException {
+        assertEquals(6221,
+                speeches.getSpeechesInYear(2012).getSpeechesBySpeaker("Alexander Abel").wordsCount());
+    }
+
+    @Test
+    public void shouldReturnTopicsCountForCertainTopic() throws ParseException {
+        assertEquals(1, speeches.getSpeechesWithTopic("Innere Sicherheit").size());
+        assertEquals(0, speeches.getSpeechesWithTopic("Test topic").size());
     }
 }

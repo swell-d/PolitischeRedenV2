@@ -1,22 +1,15 @@
 package com.website.backend.speech.actions;
 
 import com.website.backend.speech.db.PoliticalSpeechRepository;
-import com.website.backend.speech.db.PoliticalSpeechesFilter;
-import com.website.backend.speech.domain.PoliticalSpeech;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class PoliticianStatistic {
 
     private final PoliticalSpeechRepository speechRepository;
-    private final PoliticalSpeechesFilter filter;
 
-    public PoliticianStatistic(PoliticalSpeechRepository speechRepository,
-                               PoliticalSpeechesFilter filter) {
+    public PoliticianStatistic(PoliticalSpeechRepository speechRepository) {
         this.speechRepository = speechRepository;
-        this.filter = filter;
-        filter.setSpeeches(speechRepository.getAllSpeeches());
     }
 
     public StatisticResponse getStatistic(Map<String, String> allParams) {
@@ -32,9 +25,9 @@ public class PoliticianStatistic {
     public String findPoliticianMostSpeechesInYear(int year) {
         String result = null;
         int maxSpeechesCount = 0;
-        PoliticalSpeechesFilter speechesInYearFilter = createSpeechesInYearFilter(year);
+        PoliticalSpeechRepository speechesInYear = speechRepository.getSpeechesInYear(year);
         for (String speaker : speechRepository.getAllSpeakers()) {
-            int speechesCount = speechesInYearFilter.getAllSpeechesBySpeaker(speaker).size();
+            int speechesCount = speechesInYear.getSpeechesBySpeaker(speaker).size();
             if (speechesCount > maxSpeechesCount) {
                 result = speaker;
                 maxSpeechesCount = speechesCount;
@@ -47,10 +40,10 @@ public class PoliticianStatistic {
         String result = null;
         int maxSpeechesCount = 0;
         for (String speaker : speechRepository.getAllSpeakers()) {
-            ArrayList<PoliticalSpeech> speechesBySpeaker = filter.getAllSpeechesBySpeaker(speaker);
-            PoliticalSpeechesFilter speechesBySpeakerFilter = filter.getInstance();
-            speechesBySpeakerFilter.setSpeeches(speechesBySpeaker);
-            int speechesCount = speechesBySpeakerFilter.getAllSpeechesWithTopic(topic).size();
+            int speechesCount = speechRepository
+                    .getSpeechesBySpeaker(speaker)
+                    .getSpeechesWithTopic(topic)
+                    .size();
             if (speechesCount > maxSpeechesCount) {
                 result = speaker;
                 maxSpeechesCount = speechesCount;
@@ -63,22 +56,13 @@ public class PoliticianStatistic {
         String result = null;
         int minWords = Integer.MAX_VALUE;
         for (String speaker : speechRepository.getAllSpeakers()) {
-            ArrayList<PoliticalSpeech> speechesBySpeaker = filter.getAllSpeechesBySpeaker(speaker);
-            PoliticalSpeechesFilter speechesBySpeakerFilter = filter.getInstance();
-            speechesBySpeakerFilter.setSpeeches(speechesBySpeaker);
-            int totalWords = speechesBySpeakerFilter.wordsCount();
+            int totalWords = speechRepository.getSpeechesBySpeaker(speaker).wordsCount();
             if (totalWords < minWords) {
                 result = speaker;
                 minWords = totalWords;
             }
         }
         return result;
-    }
-
-    private PoliticalSpeechesFilter createSpeechesInYearFilter(int year) {
-        PoliticalSpeechesFilter speechesInYearFilter = filter.getInstance();
-        speechesInYearFilter.setSpeeches(filter.getAllSpeechesInYear(year));
-        return speechesInYearFilter;
     }
 
 }
