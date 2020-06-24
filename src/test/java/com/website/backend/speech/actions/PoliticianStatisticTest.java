@@ -16,7 +16,12 @@ public class PoliticianStatisticTest {
     @Before
     public void setUp() throws Exception {
         PoliticalSpeechRepository speechRepository = new MockPoliticalSpeechesFactory().getRepository();
-        politicianStatistic = new PoliticianStatistic(speechRepository);
+        politicianStatistic = new PoliticianStatistic(null) {
+            @Override
+            protected PoliticalSpeechRepository createNewRepository() {
+                return speechRepository;
+            }
+        };
     }
 
     @Test

@@ -14,18 +14,21 @@ public class PoliticianStatistic {
     }
 
     public StatisticResponse getStatistic(ArrayList<URL> urls) {
-        parseSpeechesFromCSVs(urls);
-        StatisticResponse result = calculateResult();
-        this.speechRepository.clear();
-        return result;
+        PoliticalSpeechRepository speeches = createNewRepository();
+        parseSpeechesFromCSVs(urls, speeches);
+        return calculateResult(speeches);
     }
 
-    private void parseSpeechesFromCSVs(ArrayList<URL> urls) {
-        new WorkWithCSV(this.speechRepository).parseSpeechesFromCSVs(urls);
+    protected PoliticalSpeechRepository createNewRepository() {
+        return this.speechRepository.createRepository();
     }
 
-    private StatisticResponse calculateResult() {
-        CollectStatistic collectStatistic = new CollectStatistic(this.speechRepository);
+    private void parseSpeechesFromCSVs(ArrayList<URL> urls, PoliticalSpeechRepository speeches) {
+        new WorkWithCSV(speeches).parseSpeechesFromCSVs(urls);
+    }
+
+    private StatisticResponse calculateResult(PoliticalSpeechRepository speeches) {
+        CollectStatistic collectStatistic = new CollectStatistic(speeches);
         return new StatisticResponse(
                 collectStatistic.findPoliticianMostSpeechesInYear(2013),
                 collectStatistic.findPoliticianWithMostTopics("Innere Sicherheit"),

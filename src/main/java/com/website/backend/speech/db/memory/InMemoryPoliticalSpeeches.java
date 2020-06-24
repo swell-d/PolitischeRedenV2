@@ -10,6 +10,11 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     private final ArrayList<PoliticalSpeech> speeches = new ArrayList<PoliticalSpeech>();
 
     @Override
+    public PoliticalSpeechRepository createRepository() {
+        return new InMemoryPoliticalSpeeches();
+    }
+
+    @Override
     public void save(PoliticalSpeech speech) {
         if (this.speeches.contains(speech)) throw new IllegalArgumentException("Speech is already in repository.");
         this.speeches.add(speech);

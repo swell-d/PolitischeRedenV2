@@ -5,6 +5,8 @@ import com.website.backend.speech.domain.PoliticalSpeech;
 import java.util.ArrayList;
 
 public interface PoliticalSpeechRepository {
+    PoliticalSpeechRepository createRepository();
+
     void save(PoliticalSpeech speech);
 
     ArrayList<PoliticalSpeech> getAllSpeeches();
