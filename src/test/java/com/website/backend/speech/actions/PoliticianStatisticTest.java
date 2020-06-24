@@ -1,9 +1,6 @@
 package com.website.backend.speech.actions;
 
 import com.website.backend.mock.MockPoliticalSpeechesFactory;
-import com.website.backend.mock.MockSpeakersFactory;
-import com.website.backend.speaker.db.SpeakerRepository;
-import com.website.backend.speaker.db.memory.InMemorySpeakers;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
 import com.website.backend.speech.db.memory.InMemoryPoliticalSpeechesFilter;
@@ -14,17 +11,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 public class PoliticianStatisticTest {
-    SpeakerRepository speakerRepository;
     PoliticalSpeechRepository speechRepository;
     InMemoryPoliticalSpeechesFilter filter;
     PoliticianStatistic politicianStatistic;
 
     @Before
     public void setUp() throws Exception {
-        speakerRepository = new MockSpeakersFactory().getSpeakerRepository();
         speechRepository = new MockPoliticalSpeechesFactory().getRepository();
         filter = new InMemoryPoliticalSpeechesFilter();
-        politicianStatistic = new PoliticianStatistic(speakerRepository, speechRepository, filter);
+        politicianStatistic = new PoliticianStatistic(speechRepository, filter);
     }
 
     @Test
@@ -34,7 +29,7 @@ public class PoliticianStatisticTest {
                 "Alexander Abel",
                 "Caesare Collins"
         );
-        assertEquals(expected, politicianStatistic.getStatistic());
+        assertEquals(expected, politicianStatistic.getStatistic(null));
     }
 
     @Test
@@ -54,7 +49,6 @@ public class PoliticianStatisticTest {
         assertEquals("Caesare Collins", politicianStatistic.findLeastWordyPolitician());
 
         PoliticianStatistic emptyDB = new PoliticianStatistic(
-                new InMemorySpeakers(),
                 new InMemoryPoliticalSpeeches(),
                 new InMemoryPoliticalSpeechesFilter()
         );

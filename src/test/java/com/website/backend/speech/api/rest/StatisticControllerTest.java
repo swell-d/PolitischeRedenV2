@@ -1,8 +1,6 @@
 package com.website.backend.speech.api.rest;
 
 import com.website.backend.mock.MockPoliticalSpeechesFactory;
-import com.website.backend.mock.MockSpeakersFactory;
-import com.website.backend.speaker.db.SpeakerRepository;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +25,6 @@ public class StatisticControllerTest {
 
     @TestConfiguration
     static class CatalogTestConfiguration {
-        @Bean
-        public SpeakerRepository speakerRepository() {
-            return new MockSpeakersFactory().getSpeakerRepository();
-        }
-
         @Bean
         public PoliticalSpeechRepository politicalSpeechRepository() throws ParseException {
             return new MockPoliticalSpeechesFactory().getRepository();

@@ -7,7 +7,9 @@ import java.util.ArrayList;
 public interface PoliticalSpeechRepository {
     void save(PoliticalSpeech speech);
 
-    ArrayList<PoliticalSpeech> getAll();
+    ArrayList<PoliticalSpeech> getAllSpeeches();
+
+    ArrayList<String> getAllSpeakers();
 
     int size();
 }

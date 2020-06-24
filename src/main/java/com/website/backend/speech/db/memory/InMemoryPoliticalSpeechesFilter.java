@@ -32,7 +32,7 @@ public class InMemoryPoliticalSpeechesFilter implements PoliticalSpeechesFilter 
     public ArrayList<PoliticalSpeech> getAllSpeechesBySpeaker(String speakerName) {
         ArrayList<PoliticalSpeech> speechesFromOneSpeaker = new ArrayList<>();
         for (PoliticalSpeech speech : this.speeches) {
-            if (speech.getSpeakerName().equals(speakerName)) speechesFromOneSpeaker.add(speech);
+            if (speech.speaker.equals(speakerName)) speechesFromOneSpeaker.add(speech);
         }
         return speechesFromOneSpeaker;
     }

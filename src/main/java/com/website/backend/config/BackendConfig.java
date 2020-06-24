@@ -1,7 +1,5 @@
 package com.website.backend.config;
 
-import com.website.backend.speaker.db.SpeakerRepository;
-import com.website.backend.speaker.db.memory.InMemorySpeakers;
 import com.website.backend.speech.actions.PoliticianStatistic;
 import com.website.backend.speech.api.rest.StatisticController;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
@@ -17,11 +15,6 @@ import java.text.ParseException;
 public class BackendConfig {
 
     @Bean
-    public SpeakerRepository speakerRepository() {
-        return new InMemorySpeakers();
-    }
-
-    @Bean
     public PoliticalSpeechRepository politicalSpeechRepository() throws ParseException {
         return new InMemoryPoliticalSpeeches();
     }
@@ -33,11 +26,10 @@ public class BackendConfig {
 
     @Bean
     public PoliticianStatistic politicianStatistic(
-            SpeakerRepository speakerRepository,
             PoliticalSpeechRepository politicalSpeechRepository,
             PoliticalSpeechesFilter politicalSpeechesFilter
     ) {
-        return new PoliticianStatistic(speakerRepository, politicalSpeechRepository, politicalSpeechesFilter);
+        return new PoliticianStatistic(politicalSpeechRepository, politicalSpeechesFilter);
     }
 
     @Bean

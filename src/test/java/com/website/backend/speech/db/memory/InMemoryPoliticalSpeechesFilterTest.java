@@ -16,7 +16,7 @@ public class InMemoryPoliticalSpeechesFilterTest {
     public void setUp() throws Exception {
         speechRepository = new MockPoliticalSpeechesFactory().getRepository();
         filter = new InMemoryPoliticalSpeechesFilter();
-        filter.setSpeeches(speechRepository.getAll());
+        filter.setSpeeches(speechRepository.getAllSpeeches());
     }
 
     @Test

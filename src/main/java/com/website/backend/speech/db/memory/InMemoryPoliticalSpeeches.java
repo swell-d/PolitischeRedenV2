@@ -16,8 +16,17 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     @Override
-    public ArrayList<PoliticalSpeech> getAll() {
-        return speeches;
+    public ArrayList<PoliticalSpeech> getAllSpeeches() {
+        return this.speeches;
+    }
+
+    @Override
+    public ArrayList<String> getAllSpeakers() {
+        ArrayList<String> speakers = new ArrayList<>();
+        for (PoliticalSpeech speech : this.speeches) {
+            if (!speakers.contains(speech.speaker)) speakers.add(speech.speaker);
+        }
+        return speakers;
     }
 
     @Override
