@@ -28,45 +28,50 @@ public class PoliticianStatistic {
     public String findPoliticianMostSpeechesInYear(int year) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
         for (PoliticalSpeech speech : speechRepository.getSpeechesInYear(year).getAllSpeeches()) {
-            increaseValue(speech, countOfSpeeches);
+            increaseValue(countOfSpeeches, speech.speaker, 1);
         }
-        return findMostSpeeches(countOfSpeeches);
+        return findMostSpeechesInMap(countOfSpeeches);
     }
 
-    private void increaseValue(PoliticalSpeech speech, Map<String, Integer> countOfSpeeches) {
-        Integer exist = countOfSpeeches.get(speech.speaker);
+    private void increaseValue(Map<String, Integer> map, String key, int value) {
+        Integer exist = map.get(key);
         if (exist == null) exist = 0;
-        countOfSpeeches.put(speech.speaker, exist + 1);
+        map.put(key, exist + value);
     }
 
-    private String findMostSpeeches(Map<String, Integer> countOfSpeeches) {
-        String result = null;
+    private String findMostSpeechesInMap(Map<String, Integer> countOfSpeeches) {
         if (countOfSpeeches.values().size() == 0) return null;
         int maxValueInMap = Collections.max(countOfSpeeches.values());
-        for (Map.Entry<String, Integer> entry : countOfSpeeches.entrySet()) {
-            if (result != null & entry.getValue() == maxValueInMap) return null;
-            if (result == null & entry.getValue() == maxValueInMap) result = entry.getKey();
-        }
-        return result;
+        return findUniqueValue(countOfSpeeches, maxValueInMap);
     }
 
     public String findPoliticianWithMostTopics(String topic) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
         for (PoliticalSpeech speech : speechRepository.getSpeechesWithTopic(topic).getAllSpeeches()) {
-            increaseValue(speech, countOfSpeeches);
+            increaseValue(countOfSpeeches, speech.speaker, 1);
         }
-        return findMostSpeeches(countOfSpeeches);
+        return findMostSpeechesInMap(countOfSpeeches);
     }
 
     public String findLeastWordyPolitician() {
+        Map<String, Integer> countOfWords = new HashMap<>();
+        for (PoliticalSpeech speech : speechRepository.getAllSpeeches()) {
+            increaseValue(countOfWords, speech.speaker, speech.words);
+        }
+        return findLeastWordyInMap(countOfWords);
+    }
+
+    private String findLeastWordyInMap(Map<String, Integer> countOfWords) {
+        if (countOfWords.values().size() == 0) return null;
+        int minValueInMap = Collections.min(countOfWords.values());
+        return findUniqueValue(countOfWords, minValueInMap);
+    }
+
+    private String findUniqueValue(Map<String, Integer> map, int value) {
         String result = null;
-        int minWords = Integer.MAX_VALUE;
-        for (String speaker : speechRepository.getAllSpeakers()) {
-            int totalWords = speechRepository.getSpeechesBySpeaker(speaker).wordsCount();
-            if (totalWords < minWords) {
-                result = speaker;
-                minWords = totalWords;
-            }
+        for (Map.Entry<String, Integer> entry : map.entrySet()) {
+            if (result != null & entry.getValue() == value) return null;
+            if (result == null & entry.getValue() == value) result = entry.getKey();
         }
         return result;
     }
