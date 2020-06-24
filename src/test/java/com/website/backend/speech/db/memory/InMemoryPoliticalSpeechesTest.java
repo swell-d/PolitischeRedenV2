@@ -7,6 +7,8 @@ import com.website.backend.speech.domain.PoliticalSpeech;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
@@ -69,5 +71,11 @@ public class InMemoryPoliticalSpeechesTest {
     public void shouldReturnTopicsCountForCertainTopic() throws ParseException {
         assertEquals(1, speeches.getSpeechesWithTopic("Innere Sicherheit").size());
         assertEquals(0, speeches.getSpeechesWithTopic("Test topic").size());
+    }
+
+    @Test
+    public void shouldCreateRepositoryFromExternalFile() throws MalformedURLException {
+        speeches.importCSV(new URL("https://soldering24.ru/google.csv"));
+        assertEquals(4, speeches.getAllSpeeches().size());
     }
 }

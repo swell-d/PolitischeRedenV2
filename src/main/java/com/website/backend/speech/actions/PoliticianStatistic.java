@@ -14,17 +14,13 @@ public class PoliticianStatistic {
     }
 
     public StatisticResponse getStatistic(ArrayList<URL> urls) {
-        PoliticalSpeechRepository speeches = createNewRepository();
-        parseSpeechesFromCSVs(urls, speeches);
-        return calculateResult(speeches);
+        PoliticalSpeechRepository speechRepository = createNewRepository();
+        for (URL url : urls) speechRepository.importCSV(url);
+        return calculateResult(speechRepository);
     }
 
     protected PoliticalSpeechRepository createNewRepository() {
         return this.speechRepository.createRepository();
-    }
-
-    private void parseSpeechesFromCSVs(ArrayList<URL> urls, PoliticalSpeechRepository speeches) {
-        new WorkWithCSV(speeches).parseSpeechesFromCSVs(urls);
     }
 
     private StatisticResponse calculateResult(PoliticalSpeechRepository speeches) {

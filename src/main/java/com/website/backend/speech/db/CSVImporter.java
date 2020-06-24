@@ -1,7 +1,6 @@
-package com.website.backend.speech.actions;
+package com.website.backend.speech.db;
 
 import com.opencsv.CSVReader;
-import com.website.backend.speech.db.PoliticalSpeechRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -9,24 +8,17 @@ import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
-public class WorkWithCSV {
+public class CSVImporter {
 
     private final PoliticalSpeechRepository speechRepository;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    public WorkWithCSV(PoliticalSpeechRepository speechRepository) {
+    public CSVImporter(PoliticalSpeechRepository speechRepository) {
         this.speechRepository = speechRepository;
     }
 
-    public void parseSpeechesFromCSVs(ArrayList<URL> urls) {
-        for (URL url : urls) {
-            addSpeechesToRepository(url);
-        }
-    }
-
-    private void addSpeechesToRepository(URL url) {
+    public void addSpeechesToRepository(URL url) {
         try (BufferedInputStream stream = new BufferedInputStream(url.openStream())) {
             CSVReader csvReader = new CSVReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
             String[] row;
