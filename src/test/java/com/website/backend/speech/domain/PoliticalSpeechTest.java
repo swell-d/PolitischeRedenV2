@@ -21,5 +21,6 @@ public class PoliticalSpeechTest {
         PoliticalSpeech speech1 = new MockPoliticalSpeechFactory().getSpeech();
         PoliticalSpeech speech2 = new MockPoliticalSpeechFactory().getSpeech();
         assertEquals(speech1, speech2);
+        assertEquals(speech1.hashCode(), speech2.hashCode());
     }
 }

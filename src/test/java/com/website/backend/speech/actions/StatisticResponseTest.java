@@ -13,4 +13,12 @@ public class StatisticResponseTest {
         assertEquals("Test2", statisticResponse.mostSecurity);
         assertEquals("Test3", statisticResponse.leastWordy);
     }
+
+    @Test
+    public void shoudBeEquals() {
+        StatisticResponse statisticResponse1 = new StatisticResponse("Test1", "Test2", "Test3");
+        StatisticResponse statisticResponse2 = new StatisticResponse("Test1", "Test2", "Test3");
+        assertEquals(statisticResponse1, statisticResponse2);
+        assertEquals(statisticResponse1.hashCode(), statisticResponse2.hashCode());
+    }
 }
