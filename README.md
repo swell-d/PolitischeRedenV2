@@ -1,4 +1,4 @@
-Aufgabenstellung: Politische Reden
+**Aufgabenstellung: Politische Reden**
 
 Szenario: Implementierung eines Features in Java oder Scala mit anschließender Code-Review und produktivem Deployment.
 
