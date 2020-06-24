@@ -1,16 +1,34 @@
 package com.website.backend.mock;
 
+import com.website.backend.speech.db.CSVImporter;
 import com.website.backend.speech.db.PoliticalSpeechRepository;
 import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
 import com.website.backend.speech.domain.DateConverter;
 import com.website.backend.speech.domain.PoliticalSpeech;
 
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.net.URL;
 import java.text.ParseException;
+import java.util.ArrayList;
 
 public class MockPoliticalSpeechesFactory {
 
     public PoliticalSpeechRepository getRepository() throws ParseException {
-        PoliticalSpeechRepository speeches = new InMemoryPoliticalSpeeches();
+        CSVImporter csvImporter = new CSVImporter() {
+            @Override
+            protected BufferedInputStream getStream(URL url) throws IOException {
+                return new BufferedInputStream(new FileInputStream(new File("csv.csv")));
+            }
+        };
+        PoliticalSpeechRepository speeches = new InMemoryPoliticalSpeeches() {
+            @Override
+            protected ArrayList<String[]> getRowsFromWeb(URL url) {
+                return csvImporter.getRows(null);
+            }
+        };
         speeches.save(new PoliticalSpeech(
                 "Alexander Abel",
                 "Bildungspolitik",

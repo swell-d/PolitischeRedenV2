@@ -45,7 +45,7 @@ public class CollectStatistic {
 
     public String findLeastWordyPolitician() {
         Map<String, Integer> countOfWords = new HashMap<>();
-        for (PoliticalSpeech speech : this.speechRepository.getAllSpeeches()) {
+        for (PoliticalSpeech speech : this.speechRepository.getSpeeches()) {
             increaseValue(countOfWords, speech.speaker, speech.words);
         }
         return findLeastWordyInMap(countOfWords);

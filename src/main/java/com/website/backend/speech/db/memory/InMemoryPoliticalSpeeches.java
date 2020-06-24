@@ -29,18 +29,8 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     @Override
-    public ArrayList<PoliticalSpeech> getAllSpeeches() {
+    public ArrayList<PoliticalSpeech> getSpeeches() {
         return this.speeches;
-    }
-
-    @Override
-    public void clear() {
-        this.speeches.clear();
-    }
-
-    @Override
-    public int size() {
-        return this.speeches.size();
     }
 
     @Override
@@ -48,15 +38,6 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
         ArrayList<PoliticalSpeech> filteredSpeeches = new ArrayList<>();
         for (PoliticalSpeech speech : this.speeches) {
             if (speech.date.get(Calendar.YEAR) == year) filteredSpeeches.add(speech);
-        }
-        return filteredSpeeches;
-    }
-
-    @Override
-    public ArrayList<PoliticalSpeech> getSpeechesBySpeaker(String speakerName) {
-        ArrayList<PoliticalSpeech> filteredSpeeches = new ArrayList<>();
-        for (PoliticalSpeech speech : this.speeches) {
-            if (speech.speaker.equals(speakerName)) filteredSpeeches.add(speech);
         }
         return filteredSpeeches;
     }
@@ -71,17 +52,15 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     @Override
-    public int wordsCount() {
-        int count = 0;
-        for (PoliticalSpeech speech : this.speeches) count += speech.words;
-        return count;
+    public void importCSV(URL url) {
+        ArrayList<String[]> rows = getRowsFromWeb(url);
+        if (rows.size() == 0) return;
+        if (!titleRowIsCorrect(rows.remove(0))) return;
+        addRowsToRepository(rows);
     }
 
-    @Override
-    public void importCSV(URL url) {
-        ArrayList<String[]> rows = new CSVImporter().getRows(url);
-        if (rows.size() == 0 | !titleRowIsCorrect(rows.remove(0))) return;
-        addRowsToRepository(rows);
+    protected ArrayList<String[]> getRowsFromWeb(URL url) {
+        return new CSVImporter().getRows(url);
     }
 
     private void addRowsToRepository(ArrayList<String[]> rows) {
@@ -95,8 +74,7 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
         }
     }
 
-    @Override
-    public void saveDataRowToRepository(String[] row) throws ParseException {
+    private void saveDataRowToRepository(String[] row) throws ParseException {
         String speaker = row[0].trim();
         String topic = row[1].trim();
         Calendar date = DateConverter.convertStringToCalendarFormat(row[2].trim());

@@ -8,7 +8,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.text.ParseException;
 
 import static org.junit.Assert.assertEquals;
@@ -26,15 +25,15 @@ public class InMemoryPoliticalSpeechesTest {
 
     @Test
     public void shouldSaveSpeeches() {
-        assertEquals(4, speeches.size());
+        assertEquals(4, speeches.getSpeeches().size());
         speeches.save(politicalSpeech);
-        assertEquals(5, speeches.size());
+        assertEquals(5, speeches.getSpeeches().size());
     }
 
     @Test
     public void shouldReturnSavedSpeeches() {
         speeches.save(politicalSpeech);
-        assertTrue(speeches.getAllSpeeches().contains(politicalSpeech));
+        assertTrue(speeches.getSpeeches().contains(politicalSpeech));
     }
 
     @Test(expected = IllegalArgumentException.class)
@@ -44,27 +43,9 @@ public class InMemoryPoliticalSpeechesTest {
     }
 
     @Test
-    public void shouldClearRepository() {
-        speeches.clear();
-        assertEquals(0, speeches.size());
-    }
-
-    @Test
     public void shouldReturnSpeechesForOneYear() throws ParseException {
         assertEquals(4, speeches.getSpeechesInYear(2012).size());
         assertEquals(0, speeches.getSpeechesInYear(2020).size());
-    }
-
-    @Test
-    public void shouldReturnSpeechesFromOneSpeaker() throws ParseException {
-        assertEquals(2, speeches.getSpeechesBySpeaker("Alexander Abel").size());
-        assertEquals(1, speeches.getSpeechesBySpeaker("Bernhard Belling").size());
-        assertEquals(0, speeches.getSpeechesBySpeaker("John Smith").size());
-    }
-
-    @Test
-    public void shouldReturnWordsCount() throws ParseException {
-        assertEquals(8550, speeches.wordsCount());
     }
 
     @Test
@@ -75,7 +56,7 @@ public class InMemoryPoliticalSpeechesTest {
 
     @Test
     public void shouldCreateRepositoryFromExternalFile() throws MalformedURLException {
-        speeches.importCSV(new URL("https://soldering24.ru/google.csv"));
-        assertEquals(4, speeches.getAllSpeeches().size());
+        speeches.importCSV(null);
+        assertEquals(4, speeches.getSpeeches().size());
     }
 }
