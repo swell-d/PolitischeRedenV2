@@ -1,28 +1,20 @@
 package com.website.backend.speech.db;
 
-import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
-import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
 public class CSVImporterTest {
 
-    private com.website.backend.speech.db.CSVImporter CSVImporter;
-    private PoliticalSpeechRepository speechRepository;
-
-    @Before
-    public void setUp() {
-        speechRepository = new InMemoryPoliticalSpeeches();
-        CSVImporter = new CSVImporter(speechRepository);
-    }
+    private final CSVImporter csvImporter = new CSVImporter();
 
     @Test
     public void shouldCreateRepositoryFromExternalFile() throws MalformedURLException {
-        CSVImporter.addSpeechesToRepository(new URL("https://soldering24.ru/google.csv"));
-        assertEquals(4, speechRepository.size());
+        ArrayList<String[]> rows = csvImporter.getRows(new URL("https://soldering24.ru/google.csv"));
+        assertEquals(5, rows.size());
     }
 }
