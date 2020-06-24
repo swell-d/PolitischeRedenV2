@@ -42,11 +42,6 @@ public class InMemoryPoliticalSpeechesTest {
     }
 
     @Test
-    public void shouldReturnSpeakersList() throws ParseException {
-        assertEquals(3, speeches.getAllSpeakers().size());
-    }
-
-    @Test
     public void shouldClearRepository() {
         speeches.clear();
         assertEquals(0, speeches.size());
@@ -68,12 +63,6 @@ public class InMemoryPoliticalSpeechesTest {
     @Test
     public void shouldReturnWordsCount() throws ParseException {
         assertEquals(8550, speeches.wordsCount());
-    }
-
-    @Test
-    public void shouldReturnWordsCountForOneSpeakerInOneYear() throws ParseException {
-        assertEquals(6221,
-                speeches.getSpeechesInYear(2012).getSpeechesBySpeaker("Alexander Abel").wordsCount());
     }
 
     @Test

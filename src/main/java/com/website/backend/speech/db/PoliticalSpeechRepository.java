@@ -9,17 +9,15 @@ public interface PoliticalSpeechRepository {
 
     ArrayList<PoliticalSpeech> getAllSpeeches();
 
-    ArrayList<String> getAllSpeakers();
-
     void clear();
 
     int size();
 
-    PoliticalSpeechRepository getSpeechesInYear(int year);
+    ArrayList<PoliticalSpeech> getSpeechesInYear(int year);
 
-    PoliticalSpeechRepository getSpeechesBySpeaker(String speakerName);
+    ArrayList<PoliticalSpeech> getSpeechesBySpeaker(String speakerName);
 
-    PoliticalSpeechRepository getSpeechesWithTopic(String topic);
+    ArrayList<PoliticalSpeech> getSpeechesWithTopic(String topic);
 
     int wordsCount();
 }

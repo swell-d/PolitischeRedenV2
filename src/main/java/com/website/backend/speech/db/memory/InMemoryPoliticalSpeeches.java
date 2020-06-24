@@ -21,15 +21,6 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     @Override
-    public ArrayList<String> getAllSpeakers() {
-        ArrayList<String> speakers = new ArrayList<>();
-        for (PoliticalSpeech speech : this.speeches) {
-            if (!speakers.contains(speech.speaker)) speakers.add(speech.speaker);
-        }
-        return speakers;
-    }
-
-    @Override
     public void clear() {
         this.speeches.clear();
     }
@@ -40,28 +31,28 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     @Override
-    public PoliticalSpeechRepository getSpeechesInYear(int year) {
-        InMemoryPoliticalSpeeches filteredSpeeches = new InMemoryPoliticalSpeeches();
+    public ArrayList<PoliticalSpeech> getSpeechesInYear(int year) {
+        ArrayList<PoliticalSpeech> filteredSpeeches = new ArrayList<>();
         for (PoliticalSpeech speech : this.speeches) {
-            if (speech.date.get(Calendar.YEAR) == year) filteredSpeeches.save(speech);
+            if (speech.date.get(Calendar.YEAR) == year) filteredSpeeches.add(speech);
         }
         return filteredSpeeches;
     }
 
     @Override
-    public PoliticalSpeechRepository getSpeechesBySpeaker(String speakerName) {
-        InMemoryPoliticalSpeeches filteredSpeeches = new InMemoryPoliticalSpeeches();
+    public ArrayList<PoliticalSpeech> getSpeechesBySpeaker(String speakerName) {
+        ArrayList<PoliticalSpeech> filteredSpeeches = new ArrayList<>();
         for (PoliticalSpeech speech : this.speeches) {
-            if (speech.speaker.equals(speakerName)) filteredSpeeches.save(speech);
+            if (speech.speaker.equals(speakerName)) filteredSpeeches.add(speech);
         }
         return filteredSpeeches;
     }
 
     @Override
-    public PoliticalSpeechRepository getSpeechesWithTopic(String topic) {
-        InMemoryPoliticalSpeeches filteredSpeeches = new InMemoryPoliticalSpeeches();
+    public ArrayList<PoliticalSpeech> getSpeechesWithTopic(String topic) {
+        ArrayList<PoliticalSpeech> filteredSpeeches = new ArrayList<>();
         for (PoliticalSpeech speech : this.speeches) {
-            if (speech.topic.equals(topic)) filteredSpeeches.save(speech);
+            if (speech.topic.equals(topic)) filteredSpeeches.add(speech);
         }
         return filteredSpeeches;
     }

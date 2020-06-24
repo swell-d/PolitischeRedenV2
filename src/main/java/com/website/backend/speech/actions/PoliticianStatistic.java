@@ -36,7 +36,7 @@ public class PoliticianStatistic {
 
     public String findPoliticianMostSpeechesInYear(int year) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
-        for (PoliticalSpeech speech : this.speechRepository.getSpeechesInYear(year).getAllSpeeches()) {
+        for (PoliticalSpeech speech : this.speechRepository.getSpeechesInYear(year)) {
             increaseValue(countOfSpeeches, speech.speaker, 1);
         }
         return findMostSpeechesInMap(countOfSpeeches);
@@ -56,7 +56,7 @@ public class PoliticianStatistic {
 
     public String findPoliticianWithMostTopics(String topic) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
-        for (PoliticalSpeech speech : this.speechRepository.getSpeechesWithTopic(topic).getAllSpeeches()) {
+        for (PoliticalSpeech speech : this.speechRepository.getSpeechesWithTopic(topic)) {
             increaseValue(countOfSpeeches, speech.speaker, 1);
         }
         return findMostSpeechesInMap(countOfSpeeches);
