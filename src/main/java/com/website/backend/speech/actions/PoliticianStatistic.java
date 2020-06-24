@@ -28,11 +28,15 @@ public class PoliticianStatistic {
     public String findPoliticianMostSpeechesInYear(int year) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
         for (PoliticalSpeech speech : speechRepository.getSpeechesInYear(year).getAllSpeeches()) {
-            Integer exist = countOfSpeeches.get(speech.speaker);
-            if (exist == null) exist = 0;
-            countOfSpeeches.put(speech.speaker, exist + 1);
+            increaseValue(speech, countOfSpeeches);
         }
         return findMostSpeeches(countOfSpeeches);
+    }
+
+    private void increaseValue(PoliticalSpeech speech, Map<String, Integer> countOfSpeeches) {
+        Integer exist = countOfSpeeches.get(speech.speaker);
+        if (exist == null) exist = 0;
+        countOfSpeeches.put(speech.speaker, exist + 1);
     }
 
     private String findMostSpeeches(Map<String, Integer> countOfSpeeches) {
@@ -47,19 +51,11 @@ public class PoliticianStatistic {
     }
 
     public String findPoliticianWithMostTopics(String topic) {
-        String result = null;
-        int maxSpeechesCount = 0;
-        for (String speaker : speechRepository.getAllSpeakers()) {
-            int speechesCount = speechRepository
-                    .getSpeechesBySpeaker(speaker)
-                    .getSpeechesWithTopic(topic)
-                    .size();
-            if (speechesCount > maxSpeechesCount) {
-                result = speaker;
-                maxSpeechesCount = speechesCount;
-            }
+        Map<String, Integer> countOfSpeeches = new HashMap<>();
+        for (PoliticalSpeech speech : speechRepository.getSpeechesWithTopic(topic).getAllSpeeches()) {
+            increaseValue(speech, countOfSpeeches);
         }
-        return result;
+        return findMostSpeeches(countOfSpeeches);
     }
 
     public String findLeastWordyPolitician() {
