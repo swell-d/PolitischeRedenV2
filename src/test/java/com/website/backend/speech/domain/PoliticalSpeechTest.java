@@ -3,6 +3,9 @@ package com.website.backend.speech.domain;
 import com.website.backend.mock.MockPoliticalSpeechFactory;
 import org.junit.Test;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import static org.junit.Assert.assertEquals;
 
 public class PoliticalSpeechTest {
@@ -12,7 +15,7 @@ public class PoliticalSpeechTest {
         PoliticalSpeech speech = new MockPoliticalSpeechFactory().getSpeech();
         assertEquals("John Smith", speech.speaker);
         assertEquals("Test topic", speech.topic);
-        assertEquals("2020-06-23", speech.getDateAsText());
+        assertEquals(new GregorianCalendar(2020, Calendar.JUNE, 23), speech.date);
         assertEquals(123, speech.words);
     }
 
