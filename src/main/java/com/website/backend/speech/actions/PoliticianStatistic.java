@@ -15,9 +15,18 @@ public class PoliticianStatistic {
         this.speechRepository = speechRepository;
     }
 
-    public StatisticResponse getStatistic(Map<String, String> allParams) {
-        // Todo download csvs and parse them
+    public StatisticResponse getStatistic(Map<String, String> parameters) {
+        parseSpeechesFromCSVs(parameters);
+        StatisticResponse result = calculateResult();
+        this.speechRepository.clear();
+        return result;
+    }
 
+    private void parseSpeechesFromCSVs(Map<String, String> parameters) {
+        new WorkWithCSV(this.speechRepository).parseSpeechesFromCSVs(parameters);
+    }
+
+    private StatisticResponse calculateResult() {
         return new StatisticResponse(
                 findPoliticianMostSpeechesInYear(2013),
                 findPoliticianWithMostTopics("Innere Sicherheit"),
@@ -27,7 +36,7 @@ public class PoliticianStatistic {
 
     public String findPoliticianMostSpeechesInYear(int year) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
-        for (PoliticalSpeech speech : speechRepository.getSpeechesInYear(year).getAllSpeeches()) {
+        for (PoliticalSpeech speech : this.speechRepository.getSpeechesInYear(year).getAllSpeeches()) {
             increaseValue(countOfSpeeches, speech.speaker, 1);
         }
         return findMostSpeechesInMap(countOfSpeeches);
@@ -47,7 +56,7 @@ public class PoliticianStatistic {
 
     public String findPoliticianWithMostTopics(String topic) {
         Map<String, Integer> countOfSpeeches = new HashMap<>();
-        for (PoliticalSpeech speech : speechRepository.getSpeechesWithTopic(topic).getAllSpeeches()) {
+        for (PoliticalSpeech speech : this.speechRepository.getSpeechesWithTopic(topic).getAllSpeeches()) {
             increaseValue(countOfSpeeches, speech.speaker, 1);
         }
         return findMostSpeechesInMap(countOfSpeeches);
@@ -55,7 +64,7 @@ public class PoliticianStatistic {
 
     public String findLeastWordyPolitician() {
         Map<String, Integer> countOfWords = new HashMap<>();
-        for (PoliticalSpeech speech : speechRepository.getAllSpeeches()) {
+        for (PoliticalSpeech speech : this.speechRepository.getAllSpeeches()) {
             increaseValue(countOfWords, speech.speaker, speech.words);
         }
         return findLeastWordyInMap(countOfWords);

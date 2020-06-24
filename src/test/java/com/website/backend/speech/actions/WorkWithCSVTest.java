@@ -1,5 +1,7 @@
 package com.website.backend.speech.actions;
 
+import com.website.backend.speech.db.PoliticalSpeechRepository;
+import com.website.backend.speech.db.memory.InMemoryPoliticalSpeeches;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -14,10 +16,12 @@ import static org.junit.Assert.assertTrue;
 public class WorkWithCSVTest {
 
     private WorkWithCSV workWithCSV;
+    private PoliticalSpeechRepository speechRepository;
 
     @Before
     public void setUp() throws Exception {
-        workWithCSV = new WorkWithCSV();
+        speechRepository = new InMemoryPoliticalSpeeches();
+        workWithCSV = new WorkWithCSV(speechRepository);
     }
 
     @Test
@@ -31,5 +35,14 @@ public class WorkWithCSVTest {
         assertTrue(workWithCSV.parseParameters(parameters).contains(url1));
         assertTrue(workWithCSV.parseParameters(parameters).contains(url2));
         assertEquals(2, workWithCSV.parseParameters(parameters).size());
+    }
+
+    @Test
+    public void shouldDownloadCSVFile() throws MalformedURLException {
+        Map<String, String> parameters = new HashMap<>() {{
+            put("url1", "https%3A%2F%2Fsoldering24.ru%2Fgoogle.csv%0A");
+        }};
+        workWithCSV.parseSpeechesFromCSVs(parameters);
+        assertEquals(4, speechRepository.getAllSpeeches().size());
     }
 }
