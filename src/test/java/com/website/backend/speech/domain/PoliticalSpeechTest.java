@@ -11,17 +11,8 @@ import static org.junit.Assert.assertEquals;
 public class PoliticalSpeechTest {
 
     @Test
-    public void shouldCreateObject() {
-        PoliticalSpeech speech = getTestSpeech1();
-        assertEquals("John Smith", speech.speaker);
-        assertEquals("Test topic", speech.topic);
-        assertEquals(new GregorianCalendar(2020, Calendar.JUNE, 23), speech.date);
-        assertEquals(123, speech.words);
-    }
-
-    @Test
     public void shouldCreateObjectFromStrings() throws ParseException {
-        PoliticalSpeech speech = getTestSpeech2();
+        PoliticalSpeech speech = getTestSpeech();
         assertEquals("John Smith", speech.speaker);
         assertEquals("Test topic", speech.topic);
         assertEquals(new GregorianCalendar(2020, Calendar.JUNE, 23), speech.date);
@@ -30,22 +21,13 @@ public class PoliticalSpeechTest {
 
     @Test
     public void shouldBeEquals() throws ParseException {
-        PoliticalSpeech speech1 = getTestSpeech1();
-        PoliticalSpeech speech2 = getTestSpeech2();
+        PoliticalSpeech speech1 = getTestSpeech();
+        PoliticalSpeech speech2 = getTestSpeech();
         assertEquals(speech1, speech2);
         assertEquals(speech1.hashCode(), speech2.hashCode());
     }
 
-    private PoliticalSpeech getTestSpeech1() {
-        return new PoliticalSpeech(
-                "John Smith",
-                "Test topic",
-                new GregorianCalendar(2020, Calendar.JUNE, 23),
-                123
-        );
-    }
-
-    private PoliticalSpeech getTestSpeech2() throws ParseException {
+    private PoliticalSpeech getTestSpeech() throws ParseException {
         return new PoliticalSpeech(
                 "John Smith",
                 "Test topic",

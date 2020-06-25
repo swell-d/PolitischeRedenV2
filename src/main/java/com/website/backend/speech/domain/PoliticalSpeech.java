@@ -11,18 +11,18 @@ public class PoliticalSpeech {
     public Calendar date = Calendar.getInstance();
     public int words;
 
-    public PoliticalSpeech(String speaker, String topic, Calendar date, int words) {
-        this.speaker = speaker;
-        this.topic = topic;
-        this.date = date;
-        this.words = words;
+    public PoliticalSpeech(String speaker, String topic, String date, String words) throws ParseException {
+        this.speaker = speaker.trim();
+        this.topic = topic.trim();
+        this.date.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(date.trim()));
+        this.words = Integer.parseInt(words.trim());
     }
 
-    public PoliticalSpeech(String speaker, String topic, String date, String words) throws ParseException {
-        this.speaker = speaker;
-        this.topic = topic;
-        this.date.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(date));
-        this.words = Integer.parseInt(words);
+    public PoliticalSpeech(String... row) throws ParseException {
+        this.speaker = row[0].trim();
+        this.topic = row[1].trim();
+        this.date.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(row[2].trim()));
+        this.words = Integer.parseInt(row[3].trim());
     }
 
     @Override

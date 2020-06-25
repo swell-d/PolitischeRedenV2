@@ -32,7 +32,9 @@ public class PoliticianStatistic {
             String[] row = csvReader.readNext();
             if (row == null) throw new IllegalArgumentException();
             if (!titleRowIsCorrect(row)) return;
-            while ((row = csvReader.readNext()) != null) parseRow(row);
+            while ((row = csvReader.readNext()) != null) {
+                if (row.length == 4) statistic.addToStatistic(new PoliticalSpeech(row));
+            }
         } catch (Exception e) {
             logger.error("Error with file: " + url);
         }
@@ -44,26 +46,13 @@ public class PoliticianStatistic {
 
     private boolean titleRowIsCorrect(String[] row) {
         try {
-            String speaker = row[0].trim();
-            String topic = row[1].trim();
-            String date = row[2].trim();
-            String words = row[3].trim();
-            if (row.length == 4 & speaker.equals("Redner") & topic.equals("Thema") & date.equals("Datum") & words.equals("Wörter"))
-                return true;
+            if (row.length == 4 & row[0].trim().equals("Redner") & row[1].trim().equals("Thema") &
+                    row[2].trim().equals("Datum") & row[3].trim().equals("Wörter")) return true;
             throw new IllegalArgumentException();
         } catch (Exception e) {
             logger.error("Wrong title row. File skipped");
         }
         return false;
-    }
-
-    private void parseRow(String[] row) {
-        try {
-            if (row.length != 4) throw new IllegalArgumentException();
-            statistic.addToStatistic(new PoliticalSpeech(row[0].trim(), row[1].trim(), row[2].trim(), row[3].trim()));
-        } catch (Exception e) {
-            logger.error("Wrong data in row");
-        }
     }
 
 }
