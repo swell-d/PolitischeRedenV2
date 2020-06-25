@@ -1,6 +1,7 @@
 package com.website.backend.speech.actions;
 
 import com.opencsv.CSVReader;
+import com.website.backend.speech.domain.PoliticalSpeech;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,18 +60,10 @@ public class PoliticianStatistic {
     private void parseRow(String[] row) {
         try {
             if (row.length != 4) throw new IllegalArgumentException();
-            extractDataFromRowAndCollectStatistic(row);
+            statistic.addToStatistic(new PoliticalSpeech(row[0].trim(), row[1].trim(), row[2].trim(), row[3].trim()));
         } catch (Exception e) {
             logger.error("Wrong data in row");
         }
-    }
-
-    private void extractDataFromRowAndCollectStatistic(String[] row) {
-        String speaker = row[0].trim();
-        String topic = row[1].trim();
-        String date = row[2].trim();
-        String words = row[3].trim();
-        statistic.addToStatistic(speaker, topic, date, words);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.website.backend.speech.actions;
 
+import com.website.backend.speech.domain.PoliticalSpeech;
+
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -10,10 +13,10 @@ public class CollectStatistic {
     private final Map<String, Integer> mostSecurity = new HashMap<>();
     private final Map<String, Integer> leastWordy = new HashMap<>();
 
-    public void addToStatistic(String speaker, String topic, String date, String words) {
-        if (date.startsWith("2013")) increaseValue(mostSpeeches, speaker, 1);
-        if (topic.equals("Innere Sicherheit")) increaseValue(mostSecurity, speaker, 1);
-        increaseValue(leastWordy, speaker, Integer.parseInt(words));
+    public void addToStatistic(PoliticalSpeech speech) {
+        if (speech.date.get(Calendar.YEAR) == 2013) increaseValue(mostSpeeches, speech.speaker, 1);
+        if (speech.topic.equals("Innere Sicherheit")) increaseValue(mostSecurity, speech.speaker, 1);
+        increaseValue(leastWordy, speech.speaker, speech.words);
     }
 
     private void increaseValue(Map<String, Integer> map, String key, int value) {
