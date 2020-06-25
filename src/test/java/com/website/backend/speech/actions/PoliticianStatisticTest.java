@@ -28,7 +28,7 @@ public class PoliticianStatisticTest {
                 "Alexander Abel",
                 "Caesare Collins"
         );
-        ArrayList<URL> fakeUrls = new ArrayList<>() {{
+        ArrayList<URL> fakeUrls = new ArrayList<URL>() {{
             add(new URL("http://localhost"));
         }};
         assertEquals(expected, politicianStatistic.getStatistic(fakeUrls));
