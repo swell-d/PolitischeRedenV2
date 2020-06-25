@@ -15,7 +15,7 @@ public class StatisticResponseTest {
     }
 
     @Test
-    public void shoudBeEquals() {
+    public void shouldBeEquals() {
         StatisticResponse statisticResponse1 = new StatisticResponse("Test1", "Test2", "Test3");
         StatisticResponse statisticResponse2 = new StatisticResponse("Test1", "Test2", "Test3");
         assertEquals(statisticResponse1, statisticResponse2);

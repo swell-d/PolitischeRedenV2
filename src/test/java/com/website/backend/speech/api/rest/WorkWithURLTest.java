@@ -11,7 +11,7 @@ import static org.junit.Assert.assertTrue;
 
 public class WorkWithURLTest {
 
-    private WorkWithURL workWithURL = new WorkWithURL();
+    private final WorkWithURL workWithURL = new WorkWithURL();
 
     @Test
     public void shouldReturnCorrectUrls() throws MalformedURLException {

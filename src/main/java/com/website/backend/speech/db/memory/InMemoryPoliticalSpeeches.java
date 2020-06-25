@@ -16,6 +16,7 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
 
     private final ArrayList<PoliticalSpeech> speeches = new ArrayList<PoliticalSpeech>();
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final CSVImporter csvImporter = new CSVImporter();
 
     @Override
     public PoliticalSpeechRepository createRepository() {
@@ -60,7 +61,7 @@ public class InMemoryPoliticalSpeeches implements PoliticalSpeechRepository {
     }
 
     protected ArrayList<String[]> getRowsFromWeb(URL url) {
-        return new CSVImporter().getRows(url);
+        return csvImporter.getRows(url);
     }
 
     private void addRowsToRepository(ArrayList<String[]> rows) {
