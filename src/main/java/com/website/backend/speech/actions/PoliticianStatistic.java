@@ -13,11 +13,14 @@ import java.util.ArrayList;
 
 public class PoliticianStatistic {
 
-    private CollectStatistic statistic;
+    private final CollectStatistic statistic;
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    public PoliticianStatistic(CollectStatistic statistic) {
+        this.statistic = statistic;
+    }
+
     public StatisticResponse getStatistic(ArrayList<URL> urls) {
-        statistic = new CollectStatistic();
         for (URL url : urls) parseFile(url);
         return statistic.calculateResult();
     }

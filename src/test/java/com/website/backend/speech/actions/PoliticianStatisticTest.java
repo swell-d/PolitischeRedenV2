@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 
 public class PoliticianStatisticTest {
 
-    private final PoliticianStatistic politicianStatistic = new PoliticianStatistic() {
+    private final PoliticianStatistic politicianStatistic = new PoliticianStatistic(new CollectStatistic()) {
         @Override
         protected BufferedInputStream getStream(URL url) throws IOException {
             return new BufferedInputStream(new FileInputStream(new File("csv.csv")));
