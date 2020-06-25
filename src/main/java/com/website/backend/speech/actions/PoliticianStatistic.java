@@ -56,17 +56,17 @@ public class PoliticianStatistic {
     private void parseRow(String[] row) {
         try {
             if (row.length != 4) throw new IllegalArgumentException();
-            extractDataFromRow(row);
+            extractDataFromRowAndCollectStatistic(row);
         } catch (Exception e) {
             logger.error("Wrong data in row");
         }
     }
 
-    private void extractDataFromRow(String[] row) {
+    private void extractDataFromRowAndCollectStatistic(String[] row) {
         String speaker = row[0].trim();
         String topic = row[1].trim();
         String date = row[2].trim();
-        int words = Integer.parseInt(row[3].trim());
+        String words = row[3].trim();
         statistic.addToStatistic(speaker, topic, date, words);
     }
 
