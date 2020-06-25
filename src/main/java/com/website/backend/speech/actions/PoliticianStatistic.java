@@ -9,9 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class PoliticianStatistic {
 
@@ -64,10 +62,10 @@ public class PoliticianStatistic {
         }
     }
 
-    private void extractDataFromRow(String[] row) throws ParseException {
+    private void extractDataFromRow(String[] row) {
         String speaker = row[0].trim();
         String topic = row[1].trim();
-        Calendar date = DateConverter.convertStringToCalendarFormat(row[2].trim());
+        String date = row[2].trim();
         int words = Integer.parseInt(row[3].trim());
         statistic.addToStatistic(speaker, topic, date, words);
     }
