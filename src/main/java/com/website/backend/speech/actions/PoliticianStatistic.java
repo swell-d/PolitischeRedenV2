@@ -30,13 +30,12 @@ public class PoliticianStatistic {
         try (BufferedInputStream stream = getStream(url)) {
             CSVReader csvReader = new CSVReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
             String[] row = csvReader.readNext();
-            if (row == null) throw new IllegalArgumentException();
-            if (!titleRowIsCorrect(row)) return;
+            checkFirstRow(row);
             while ((row = csvReader.readNext()) != null) {
                 if (row.length == 4) statistic.addToStatistic(new PoliticalSpeech(row));
             }
         } catch (Exception e) {
-            logger.error("Error with file: " + url);
+            logger.error("Error with file: " + url + ". File skipped");
         }
     }
 
@@ -44,15 +43,14 @@ public class PoliticianStatistic {
         return new BufferedInputStream(url.openStream());
     }
 
+    private void checkFirstRow(String[] row) {
+        if (row == null) throw new IllegalArgumentException();
+        if (!titleRowIsCorrect(row)) throw new IllegalArgumentException();
+    }
+
     private boolean titleRowIsCorrect(String[] row) {
-        try {
-            if (row.length == 4 & row[0].trim().equals("Redner") & row[1].trim().equals("Thema") &
-                    row[2].trim().equals("Datum") & row[3].trim().equals("Wörter")) return true;
-            throw new IllegalArgumentException();
-        } catch (Exception e) {
-            logger.error("Wrong title row. File skipped");
-        }
-        return false;
+        return row.length == 4 & row[0].trim().equals("Redner") & row[1].trim().equals("Thema") &
+                row[2].trim().equals("Datum") & row[3].trim().equals("Wörter");
     }
 
 }
