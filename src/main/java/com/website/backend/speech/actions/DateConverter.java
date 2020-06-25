@@ -1,4 +1,4 @@
-package com.website.backend.speech.domain;
+package com.website.backend.speech.actions;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,35 +1,75 @@
 package com.website.backend.speech.actions;
 
-import com.website.backend.speech.db.PoliticalSpeechRepository;
+import com.opencsv.CSVReader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class PoliticianStatistic {
 
-    private final PoliticalSpeechRepository speechRepository;
-
-    public PoliticianStatistic(PoliticalSpeechRepository speechRepository) {
-        this.speechRepository = speechRepository;
-    }
+    private CollectStatistic statistic;
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     public StatisticResponse getStatistic(ArrayList<URL> urls) {
-        PoliticalSpeechRepository speechRepository = createNewRepository();
-        for (URL url : urls) speechRepository.importCSV(url);
-        return calculateResult(speechRepository);
+        statistic = new CollectStatistic();
+        for (URL url : urls) parseFile(url);
+        return statistic.calculateResult();
     }
 
-    protected PoliticalSpeechRepository createNewRepository() {
-        return this.speechRepository.createRepository();
+    private void parseFile(URL url) {
+        try (BufferedInputStream stream = getStream(url)) {
+            CSVReader csvReader = new CSVReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
+            String[] row = csvReader.readNext();
+            if (row == null) throw new IllegalArgumentException();
+            if (!titleRowIsCorrect(row)) return;
+            while ((row = csvReader.readNext()) != null) parseRow(row);
+        } catch (Exception e) {
+            logger.error("Error with file: " + url);
+        }
     }
 
-    private StatisticResponse calculateResult(PoliticalSpeechRepository speeches) {
-        CollectStatistic collectStatistic = new CollectStatistic(speeches);
-        return new StatisticResponse(
-                collectStatistic.findPoliticianMostSpeechesInYear(2013),
-                collectStatistic.findPoliticianWithMostTopics("Innere Sicherheit"),
-                collectStatistic.findLeastWordyPolitician()
-        );
+    protected BufferedInputStream getStream(URL url) throws IOException {
+        return new BufferedInputStream(url.openStream());
+    }
+
+    private boolean titleRowIsCorrect(String[] row) {
+        try {
+            String speaker = row[0].trim();
+            String topic = row[1].trim();
+            String date = row[2].trim();
+            String words = row[3].trim();
+            if (row.length == 4 & speaker.equals("Redner") & topic.equals("Thema") & date.equals("Datum") & words.equals("Wörter"))
+                return true;
+            throw new IllegalArgumentException();
+        } catch (Exception e) {
+            logger.error("Wrong title row. File skipped");
+        }
+        return false;
+    }
+
+    private void parseRow(String[] row) {
+        try {
+            if (row.length != 4) throw new IllegalArgumentException();
+            extractDataFromRow(row);
+        } catch (Exception e) {
+            logger.error("Wrong data in row");
+        }
+    }
+
+    private void extractDataFromRow(String[] row) throws ParseException {
+        String speaker = row[0].trim();
+        String topic = row[1].trim();
+        Calendar date = DateConverter.convertStringToCalendarFormat(row[2].trim());
+        int words = Integer.parseInt(row[3].trim());
+        statistic.addToStatistic(speaker, topic, date, words);
     }
 
 }
