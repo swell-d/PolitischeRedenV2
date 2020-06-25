@@ -10,9 +10,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.website</groupId>
-    <artifactId>politische-reden</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <name>politische-reden</name>
+    <artifactId>politische-reden-v2</artifactId>
+    <version>2.0-SNAPSHOT</version>
+    <name>politische-reden-v2</name>
     <description>Test task for Peek and Cloppenburg KG</description>
 
     <properties>
