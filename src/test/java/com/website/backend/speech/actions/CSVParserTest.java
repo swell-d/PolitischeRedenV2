@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
-public class PoliticianStatisticTest {
+public class CSVParserTest {
 
-    private final PoliticianStatistic politicianStatistic = new PoliticianStatistic(new CollectStatistic()) {
+    private final CSVParser CSVParser = new CSVParser(new Statistics()) {
         @Override
         protected BufferedInputStream getStream(URL url) throws IOException {
             return new BufferedInputStream(new FileInputStream(new File("csv.csv")));
@@ -31,7 +31,7 @@ public class PoliticianStatisticTest {
         ArrayList<URL> fakeUrls = new ArrayList<URL>() {{
             add(new URL("http://localhost"));
         }};
-        assertEquals(expected, politicianStatistic.getStatistic(fakeUrls));
+        assertEquals(expected, CSVParser.getStatistic(fakeUrls));
     }
 
 }

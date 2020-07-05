@@ -2,18 +2,20 @@ package com.website.backend.speech.actions;
 
 import com.website.backend.speech.domain.PoliticalSpeech;
 
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CollectStatistic {
+public class Statistics {
 
     private final Map<String, Integer> mostSpeeches = new HashMap<>();
     private final Map<String, Integer> mostSecurity = new HashMap<>();
     private final Map<String, Integer> leastWordy = new HashMap<>();
 
-    public void addToStatistic(PoliticalSpeech speech) {
+    public void add(String... row) throws ParseException {
+        PoliticalSpeech speech = new PoliticalSpeech(row);
         if (speech.date.get(Calendar.YEAR) == 2013) increaseValue(mostSpeeches, speech.speaker, 1);
         if (speech.topic.equals("Innere Sicherheit")) increaseValue(mostSecurity, speech.speaker, 1);
         increaseValue(leastWordy, speech.speaker, speech.words);

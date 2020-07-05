@@ -1,6 +1,6 @@
 package com.website.backend.speech.api.rest;
 
-import com.website.backend.speech.actions.PoliticianStatistic;
+import com.website.backend.speech.actions.CSVParser;
 import com.website.backend.speech.actions.StatisticResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,16 +13,16 @@ import java.util.Map;
 @RestController
 public class StatisticController {
 
-    private final PoliticianStatistic politicianStatistic;
+    private final CSVParser CSVParser;
 
-    public StatisticController(PoliticianStatistic politicianStatistic) {
-        this.politicianStatistic = politicianStatistic;
+    public StatisticController(CSVParser CSVParser) {
+        this.CSVParser = CSVParser;
     }
 
     @GetMapping(path = "/evaluation", produces = "application/json")
     public StatisticResponse statisticResponse(@RequestParam Map<String, String> allParams) {
         ArrayList<URL> urls = new WorkWithURL().parseParameters(allParams);
-        return politicianStatistic.getStatistic(urls);
+        return CSVParser.getStatistic(urls);
     }
 
 }
